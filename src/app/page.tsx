@@ -22,7 +22,7 @@ export default function LandingPage() {
   const { user, isLoading } = useAuth();
   const [isClient, setIsClient] = useState(false);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
-
+  
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -43,7 +43,7 @@ export default function LandingPage() {
         aria-hidden="true"
       />
 
-      <header className="fixed top-4 inset-x-4 md:left-auto md:right-auto md:mx-auto md:max-w-5xl z-50 bg-black/50 backdrop-blur-md shadow-lg rounded-xl">
+      <header className="fixed top-4 inset-x-0 mx-auto w-full max-w-3xl z-50 bg-black/50 backdrop-blur-md shadow-lg rounded-xl">
         <div className="flex justify-between items-center px-6 py-3">
           <AppLogo className="text-2xl !text-white text-shadow-sm" />
           <nav
@@ -55,15 +55,15 @@ export default function LandingPage() {
                 <motion.a
                   className="relative px-3 py-2 text-sm font-medium text-white text-shadow-sm rounded-md"
                   onHoverStart={() => setHoveredTab(item.name)}
-                  onClick={() => {
+                  onClick={(e) => {
                      setHoveredTab(item.name);
-                     // Smooth scroll to section
                      const element = document.querySelector(item.href);
                      if (element) {
+                       e.preventDefault(); // Prevent default anchor jump
                        element.scrollIntoView({ behavior: 'smooth' });
                      }
                   }}
-                  href={item.href}
+                  href={item.href} // Still useful for context/SEO/fallback
                 >
                   {hoveredTab === item.name && (
                     <motion.div
@@ -110,8 +110,8 @@ export default function LandingPage() {
       ">
         <div className="container mx-auto relative">
           <AppLogo className="text-xl !text-white text-shadow-sm justify-center mb-4" />
-          <p className="text-white text-shadow-sm">&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
-          <p className="text-sm mt-2 text-white text-shadow-sm">Forge Your Knowledge, Master Your Mind.</p>
+          <p className="text-white/90 text-shadow-sm">&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
+          <p className="text-sm mt-2 text-white/80 text-shadow-sm">Forge Your Knowledge, Master Your Mind.</p>
         </div>
       </footer>
     </div>
