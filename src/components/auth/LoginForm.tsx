@@ -20,7 +20,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
-  const { login, isLoading } = useAuth();
+  const { login, signInWithGoogle, isLoading } = useAuth(); // Use signInWithGoogle
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -29,12 +29,13 @@ export function LoginForm() {
     },
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
-    await login(data.email);
+  // Handles custom mock email/password login
+  const onSubmitCustomLogin = async (data: LoginFormValues) => {
+    await login(data.email, data.email); // Mock login expects email and optional name
   };
 
   const handleGoogleSignIn = async () => {
-    await login("user@example.com", "Demo User"); 
+    await signInWithGoogle(); // Call the Firebase Google Sign-In method
   };
 
   return (
@@ -44,7 +45,7 @@ export function LoginForm() {
         <CardDescription>Enter your credentials to access your MemoryForge account.</CardDescription>
       </CardHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmitCustomLogin)}>
           <CardContent className="space-y-4">
             <FormField
               control={form.control}
@@ -73,7 +74,7 @@ export function LoginForm() {
               )}
             />
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Logging in...' : 'Login'}
+              {isLoading ? 'Logging in...' : 'Login with Email'}
             </Button>
             <div className="relative my-4">
               <div className="absolute inset-0 flex items-center">
@@ -87,7 +88,7 @@ export function LoginForm() {
             </div>
             <Button variant="outline" type="button" className="w-full" onClick={handleGoogleSignIn} disabled={isLoading}>
               <ChromeIcon className="mr-2 h-4 w-4" />
-              Sign in with Google (mock)
+              Sign in with Google
             </Button>
           </CardContent>
         </form>

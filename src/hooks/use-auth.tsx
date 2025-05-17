@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { User } from '@/lib/types';
@@ -5,32 +6,45 @@ import { useRouter } from 'next/navigation';
 import React, { createContext, useContext, useEffect, ReactNode } from 'react';
 import { useLocalStorage } from './use-local-storage';
 import { useToast } from './use-toast';
+import { firebaseApp } from '@/lib/firebase'; // Import Firebase app
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  signOut as firebaseSignOut,
+  type User as FirebaseUser
+} from 'firebase/auth';
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, name?: string) => Promise<void>; // Simplified login
-  signup: (email: string, name: string) => Promise<void>; // Simplified signup
+  login: (email: string, name?: string) => Promise<void>; // For custom mock login
+  signup: (email: string, name: string) => Promise<void>; // For custom mock signup
+  signInWithGoogle: () => Promise<void>; // For Firebase Google Sign-In
   logout: () => void;
   isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock user database stored in localStorage
-const USERS_STORAGE_KEY = 'memoryforge-users';
+const USERS_STORAGE_KEY = 'memoryforge-users'; // For mock custom users
 const CURRENT_USER_STORAGE_KEY = 'memoryforge-current-user';
 
+const auth = getAuth(firebaseApp); // Initialize Firebase Auth
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [users, setUsers] = useLocalStorage<User[]>(USERS_STORAGE_KEY, []);
+  const [users, setUsers] = useLocalStorage<User[]>(USERS_STORAGE_KEY, []); // Mock user DB for custom login
   const [currentUser, setCurrentUser] = useLocalStorage<User | null>(CURRENT_USER_STORAGE_KEY, null);
   const [isLoading, setIsLoading] = React.useState(true);
   const router = useRouter();
   const { toast } = useToast();
 
   useEffect(() => {
+    // This effect handles the initial loading state based on the persisted currentUser from localStorage.
+    // Firebase auth state is handled more directly by its methods.
     setIsLoading(false);
   }, [currentUser]);
 
+  // Custom mock login
   const login = async (email: string, name?: string): Promise<void> => {
     setIsLoading(true);
     const existingUser = users.find(u => u.email === email);
@@ -38,21 +52,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setCurrentUser(existingUser);
       toast({ title: "Login Successful", description: `Welcome back, ${existingUser.name || existingUser.email}!` });
       router.push('/dashboard');
+    } else if (name) { // For mock "Sign in with Google" if it were to use this path, or quick sign-up
+      const newUser: User = { id: Date.now().toString(), email, name, avatarUrl: `https://placehold.co/40x40.png?text=${name.charAt(0).toUpperCase()}` };
+      setUsers([...users, newUser]);
+      setCurrentUser(newUser);
+      toast({ title: "Login Successful", description: `Welcome, ${name}!` });
+      router.push('/dashboard');
     } else {
-      // For "Sign in with Google" mock or if user doesn't exist via custom login
-      if (name) { // Likely from Google Sign-in mock
-        const newUser: User = { id: Date.now().toString(), email, name, avatarUrl: `https://placehold.co/40x40.png?text=${name.charAt(0).toUpperCase()}` };
-        setUsers([...users, newUser]);
-        setCurrentUser(newUser);
-        toast({ title: "Login Successful", description: `Welcome, ${name}!` });
-        router.push('/dashboard');
-      } else {
-        toast({ title: "Login Failed", description: "User not found. Please sign up.", variant: "destructive" });
-      }
+      toast({ title: "Login Failed", description: "User not found. Please sign up.", variant: "destructive" });
     }
     setIsLoading(false);
   };
 
+  // Custom mock signup
   const signup = async (email: string, name: string): Promise<void> => {
     setIsLoading(true);
     const existingUser = users.find(u => u.email === email);
@@ -69,14 +81,58 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(false);
   };
 
-  const logout = () => {
-    setCurrentUser(null);
+  // Firebase Google Sign-In
+  const signInWithGoogle = async (): Promise<void> => {
+    setIsLoading(true);
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const firebaseUser: FirebaseUser = result.user;
+      
+      // Map Firebase user to our app's User type and store in localStorage
+      const appUser: User = {
+        id: firebaseUser.uid,
+        email: firebaseUser.email || undefined,
+        name: firebaseUser.displayName || 'User',
+        avatarUrl: firebaseUser.photoURL || `https://placehold.co/40x40.png?text=${(firebaseUser.displayName || 'U').charAt(0).toUpperCase()}`,
+      };
+      setCurrentUser(appUser);
+      
+      // Optional: Add/update this user in the mock `users` list if needed elsewhere,
+      // but for auth, `currentUser` is primary.
+      // const userExistsInMockList = users.some(u => u.id === appUser.id || u.email === appUser.email);
+      // if (!userExistsInMockList) {
+      //   setUsers(prevUsers => [...prevUsers, appUser]);
+      // } else {
+      //   setUsers(prevUsers => prevUsers.map(u => (u.id === appUser.id || u.email === appUser.email) ? appUser : u));
+      // }
+
+      toast({ title: "Google Sign-In Successful", description: `Welcome, ${appUser.name}!` });
+      router.push('/dashboard');
+    } catch (error: any) {
+      console.error("Google Sign-In Error:", error);
+      toast({ title: "Google Sign-In Failed", description: error.message || "An unexpected error occurred.", variant: "destructive" });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const logout = async () => {
+    setIsLoading(true);
+    try {
+      await firebaseSignOut(auth); // Sign out from Firebase
+    } catch (error) {
+      console.error("Firebase Sign-Out Error:", error);
+      // Non-critical, proceed with local logout
+    }
+    setCurrentUser(null); // Clear user from localStorage
     toast({ title: "Logged Out", description: "You have been successfully logged out." });
     router.push('/login');
+    setIsLoading(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user: currentUser, login, signup, logout, isLoading }}>
+    <AuthContext.Provider value={{ user: currentUser, login, signup, signInWithGoogle, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
