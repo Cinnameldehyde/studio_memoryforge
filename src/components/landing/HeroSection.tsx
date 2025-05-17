@@ -3,16 +3,18 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import React from 'react';
 
 interface HeroSectionProps {
   id: string;
 }
 
-export function HeroSection({ id }: HeroSectionProps) {
+export const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(({ id }, ref) => {
   return (
     <section 
       id={id} 
-      className="relative py-10 md:py-12 min-h-[60vh] flex items-center justify-center text-center overflow-hidden bg-transparent pt-24 md:pt-28" // Increased top padding further
+      ref={ref}
+      className="relative py-10 md:py-12 min-h-[60vh] flex items-center justify-center text-center overflow-hidden bg-transparent pt-28 md:pt-32" // Increased top padding further
     >
       
       <div className="container mx-auto px-4 z-10">
@@ -44,5 +46,8 @@ export function HeroSection({ id }: HeroSectionProps) {
       </div>
     </section>
   );
-}
+});
 
+HeroSection.displayName = 'HeroSection';
+
+    

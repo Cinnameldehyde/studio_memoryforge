@@ -22,10 +22,68 @@ export default function LandingPage() {
   const { user, isLoading } = useAuth();
   const [isClient, setIsClient] = useState(false);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+  const [activeSectionTab, setActiveSectionTab] = useState<string | null>(navItems[0].name); // Default to 'Home'
+
+  const heroRef = useRef<HTMLDivElement>(null);
+  const featuresRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  const sectionRefs = {
+    'Home': heroRef,
+    'Features': featuresRef,
+    'Start Now': ctaRef,
+  };
   
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const offset = window.innerHeight * 0.4; // Consider section active when it's 40% from top
+
+      let currentActiveTab = null;
+
+      for (const item of navItems) {
+        const section = sectionRefs[item.name]?.current;
+        if (section) {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          // Check if the top of the section is within the viewport (with offset)
+          // And also if the bottom of the section is still somewhat in view
+          if (scrollPosition + offset >= sectionTop && scrollPosition + offset < sectionTop + sectionHeight) {
+            currentActiveTab = item.name;
+            break; 
+          }
+        }
+      }
+      
+      // Fallback to the first item if no section is prominently in view (e.g., at the very top or bottom)
+      if (!currentActiveTab && navItems.length > 0) {
+        if (scrollPosition < (sectionRefs[navItems[0].name]?.current?.offsetTop || 0) + (sectionRefs[navItems[0].name]?.current?.offsetHeight || 0) / 2) {
+            currentActiveTab = navItems[0].name;
+        } else if (scrollPosition + window.innerHeight >= document.documentElement.scrollHeight - 50) { // Near bottom
+            currentActiveTab = navItems[navItems.length -1].name;
+        }
+      }
+      
+      if (currentActiveTab) {
+        setActiveSectionTab(currentActiveTab);
+      }
+    };
+
+    if (isClient) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      handleScroll(); // Initial check
+    }
+
+    return () => {
+      if (isClient) {
+        window.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [isClient, sectionRefs]);
 
 
   if (isLoading && !isClient) {
@@ -35,6 +93,8 @@ export default function LandingPage() {
       </div>
     );
   }
+
+  const displayTab = hoveredTab ?? activeSectionTab;
 
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden text-foreground">
@@ -47,7 +107,7 @@ export default function LandingPage() {
         <div className="flex justify-between items-center px-4 sm:px-6 py-3">
           <AppLogo className="text-lg sm:text-xl !text-white text-shadow-sm" />
           <nav
-            className="hidden md:flex space-x-1 items-center relative"
+            className="hidden md:flex space-x-1 items-center relative" // Hidden on small screens, flex on md+
             onMouseLeave={() => setHoveredTab(null)}
           >
             {navItems.map((item) => (
@@ -56,7 +116,8 @@ export default function LandingPage() {
                   className="relative px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium text-white text-shadow-sm rounded-md"
                   onHoverStart={() => setHoveredTab(item.name)}
                   onClick={(e) => {
-                     setHoveredTab(item.name);
+                     setHoveredTab(item.name); // Set hovered for immediate pill move on click
+                     setActiveSectionTab(item.name); // Also set active section on click
                      const element = document.querySelector(item.href);
                      if (element) {
                        e.preventDefault(); // Prevent default anchor jump
@@ -65,7 +126,7 @@ export default function LandingPage() {
                   }}
                   href={item.href} 
                 >
-                  {hoveredTab === item.name && (
+                  {displayTab === item.name && (
                     <motion.div
                       className="absolute inset-0 bg-white/10 rounded-full z-0"
                       layoutId="active-nav-pill"
@@ -77,7 +138,7 @@ export default function LandingPage() {
               </Link>
             ))}
           </nav>
-          <div className="flex items-center">
+          <div className="flex items-center"> {/* Wrapper for the button to ensure correct flex behavior */}
             {isLoading ? (
               <Loader2 className="h-5 w-5 animate-spin text-white" />
             ) : user ? (
@@ -96,9 +157,9 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-grow relative z-0">
-        <HeroSection id="hero" />
-        <FeaturesSection id="features" />
-        <CallToActionSection id="cta" />
+        <HeroSection id="hero" ref={heroRef} />
+        <FeaturesSection id="features" ref={featuresRef} />
+        <CallToActionSection id="cta" ref={ctaRef}/>
       </main>
 
       <footer className="
@@ -110,10 +171,12 @@ export default function LandingPage() {
       ">
         <div className="container mx-auto relative">
           <AppLogo className="text-xl !text-white text-shadow-sm justify-center mb-4" />
-          <p className="text-white/90 text-shadow-sm">&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
-          <p className="text-sm mt-2 text-white/80 text-shadow-sm">Forge Your Knowledge, Master Your Mind.</p>
+          <p className="text-sm text-white/90 text-shadow-sm">&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
+          <p className="text-xs mt-2 text-white/80 text-shadow-sm">Forge Your Knowledge, Master Your Mind.</p>
         </div>
       </footer>
     </div>
   );
 }
+
+    

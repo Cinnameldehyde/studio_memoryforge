@@ -1,6 +1,7 @@
 
 import { Brain, Zap, BarChart3, Settings, RefreshCw } from 'lucide-react';
 import { FeatureCard } from './FeatureCard';
+import React from 'react';
 
 const features = [
   {
@@ -29,9 +30,9 @@ interface FeaturesSectionProps {
   id: string;
 }
 
-export function FeaturesSection({ id }: FeaturesSectionProps) {
+export const FeaturesSection = React.forwardRef<HTMLDivElement, FeaturesSectionProps>(({ id }, ref) => {
   return (
-    <section id={id} className="py-16 md:py-20 bg-transparent">
+    <section id={id} ref={ref} className="py-12 md:py-16 bg-transparent">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-white text-shadow-md mb-4">
@@ -55,4 +56,7 @@ export function FeaturesSection({ id }: FeaturesSectionProps) {
       </div>
     </section>
   );
-}
+});
+FeaturesSection.displayName = 'FeaturesSection';
+
+    

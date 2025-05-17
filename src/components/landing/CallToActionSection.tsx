@@ -2,14 +2,15 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import React from 'react';
 
 interface CallToActionSectionProps {
   id: string;
 }
 
-export function CallToActionSection({ id }: CallToActionSectionProps) {
+export const CallToActionSection = React.forwardRef<HTMLDivElement, CallToActionSectionProps>(({ id }, ref) => {
   return (
-    <section id={id} className="relative py-10 md:py-12 overflow-hidden bg-transparent">
+    <section id={id} ref={ref} className="relative py-12 md:py-16 overflow-hidden bg-transparent">
       <div className="container mx-auto px-4 text-center z-10 relative">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
@@ -35,11 +36,14 @@ export function CallToActionSection({ id }: CallToActionSectionProps) {
           transition={{ duration: 0.5, delay: 0.4 }}
           viewport={{ once: true, amount: 0.5 }}
         >
-          <Button asChild size="lg" className="px-12 py-7 text-xl bg-primary text-primary-foreground rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+          <Button asChild size="lg" className="px-12 py-7 text-xl bg-primary hover:bg-primary-gradient text-primary-foreground rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
             <Link href="/signup">Get Started for Free</Link>
           </Button>
         </motion.div>
       </div>
     </section>
   );
-}
+});
+CallToActionSection.displayName = 'CallToActionSection';
+
+    
