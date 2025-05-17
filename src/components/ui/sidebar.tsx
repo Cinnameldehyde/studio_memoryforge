@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -260,30 +261,54 @@ const Sidebar = React.forwardRef<
 Sidebar.displayName = "Sidebar"
 
 const SidebarTrigger = React.forwardRef<
-  React.ElementRef<typeof Button>,
+  HTMLButtonElement,
   React.ComponentProps<typeof Button>
->(({ className, onClick, ...props }, ref) => {
-  const { toggleSidebar } = useSidebar()
+>(({ className, onClick, asChild = false, children, ...props }, ref) => {
+  const { toggleSidebar } = useSidebar();
 
+  const handleTriggerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (onClick) {
+      onClick(event);
+    }
+    // Check if the event was prevented by the onClick handler passed in props
+    if (!event.isDefaultPrevented()) {
+      toggleSidebar();
+    }
+  };
+  
+  if (asChild) {
+    return (
+      <Slot
+        ref={ref}
+        onClick={handleTriggerClick}
+        className={className} // Pass className from SidebarTrigger usage
+        data-sidebar="trigger" // Ensure this data attribute is consistently applied
+        {...props} // Spreads other props like variant, size, disabled etc.
+      >
+        {/* children is the single ReactElement child passed to SidebarTrigger */}
+        {children}
+      </Slot>
+    );
+  }
+
+  // Default rendering when not asChild
   return (
     <Button
       ref={ref}
       data-sidebar="trigger"
-      variant="ghost"
-      size="icon"
-      className={cn("h-7 w-7", className)}
-      onClick={(event) => {
-        onClick?.(event)
-        toggleSidebar()
-      }}
-      {...props}
+      variant="ghost" // Default variant
+      size="icon"    // Default size
+      className={cn("h-7 w-7", className)} // Default style + passed className
+      onClick={handleTriggerClick}
+      {...props} // Spreads other props like disabled
     >
       <PanelLeft />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
-  )
-})
-SidebarTrigger.displayName = "SidebarTrigger"
+  );
+});
+SidebarTrigger.displayName = "SidebarTrigger";
+
 
 const SidebarRail = React.forwardRef<
   HTMLButtonElement,
