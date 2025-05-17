@@ -40,15 +40,14 @@ export default function LandingPage() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!isClient) return; // Ensure window is defined
+      if (!isClient) return; 
 
       const scrollPosition = window.scrollY;
-      // Adjust offset: a bit less than half the viewport height might be good
-      // Or a fixed pixel value if more consistent behavior is needed
       const offset = window.innerHeight * 0.4; 
 
       let currentActiveTab = null;
 
+      // Check sections in order
       for (const item of navItems) {
         const section = sectionRefs[item.name]?.current;
         if (section) {
@@ -62,10 +61,12 @@ export default function LandingPage() {
         }
       }
       
+      // Fallback for top/bottom of page if no section is strictly "active" by the above logic
       if (!currentActiveTab && navItems.length > 0 && heroRef.current) {
          if (scrollPosition < heroRef.current.offsetTop + heroRef.current.offsetHeight / 2) {
              currentActiveTab = navItems[0].name;
          } else if (ctaRef.current && scrollPosition + window.innerHeight >= ctaRef.current.offsetTop + ctaRef.current.offsetHeight / 2) {
+             // Make sure "Start Now" is active if user scrolls to the very bottom
              currentActiveTab = navItems[navItems.length -1].name;
          }
       }
@@ -77,7 +78,7 @@ export default function LandingPage() {
 
     if (isClient) {
       window.addEventListener('scroll', handleScroll, { passive: true });
-      handleScroll(); 
+      handleScroll(); // Initial check
     }
 
     return () => {
@@ -85,7 +86,7 @@ export default function LandingPage() {
         window.removeEventListener('scroll', handleScroll);
       }
     };
-  }, [isClient, sectionRefs]);
+  }, [isClient, sectionRefs]); // sectionRefs dependency is okay as it's stable
 
 
   if (isLoading && !isClient) {
@@ -105,11 +106,12 @@ export default function LandingPage() {
         aria-hidden="true"
       />
 
-      <header className="fixed top-4 inset-x-0 mx-auto w-full max-w-3xl z-50 bg-neutral-800/40 backdrop-blur-md shadow-lg rounded-xl">
+      <header className="fixed top-4 inset-x-0 mx-auto w-full max-w-lg z-50 bg-neutral-800/40 backdrop-blur-md shadow-lg rounded-xl">
         <div className="flex items-center md:justify-between justify-center px-4 sm:px-6 py-3">
           <AppLogo className="text-lg sm:text-xl !text-white text-shadow-sm" />
+          
           <nav
-            className="hidden md:flex space-x-1 items-center relative" 
+            className="hidden md:flex space-x-1 items-center relative md:mx-6" 
             onMouseLeave={() => setHoveredTab(null)}
           >
             {navItems.map((item) => (
@@ -119,19 +121,19 @@ export default function LandingPage() {
                   onHoverStart={() => setHoveredTab(item.name)}
                   onClick={(e) => {
                      setHoveredTab(item.name); 
-                     setActiveSectionTab(item.name);
+                     setActiveSectionTab(item.name); // Set active tab on click for immediate feedback
                      const element = document.querySelector(item.href);
                      if (element) {
-                       e.preventDefault(); 
+                       e.preventDefault(); // Prevent default link behavior
                        element.scrollIntoView({ behavior: 'smooth' });
                      }
                   }}
-                  href={item.href} 
+                  href={item.href} // Keep href for accessibility and right-click behavior
                 >
                   {displayTab === item.name && (
                     <motion.div
                       className="absolute inset-0 bg-white/10 rounded-full z-0"
-                      layoutId="active-nav-pill"
+                      layoutId="active-nav-pill" // Unique ID for the layout animation
                       transition={{ type: "spring", bounce: 0.1, duration: 0.3 }}
                     />
                   )}
@@ -140,7 +142,8 @@ export default function LandingPage() {
               </Link>
             ))}
           </nav>
-          <div className="hidden md:flex items-center"> {/* Wrapper for the button to ensure correct flex behavior */}
+
+          <div className="hidden md:flex items-center"> {/* Wrapper for the button */}
             {isLoading ? (
               <Loader2 className="h-5 w-5 animate-spin text-white" />
             ) : user ? (
