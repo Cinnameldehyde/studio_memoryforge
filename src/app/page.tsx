@@ -79,9 +79,7 @@ export default function LandingPage() {
               </Button>
             ) : (
               <>
-                <Button asChild variant="ghost" size="sm" className="hover:text-primary !text-white text-shadow-sm hover:bg-white/10">
-                  <Link href="/login">Login</Link>
-                </Button>
+                {/* Login button removed */}
                 <Button asChild variant="default" size="sm" className="bg-primary hover:bg-primary-gradient text-primary-foreground">
                   <Link href="/signup">Get Started</Link>
                 </Button>
