@@ -8,67 +8,59 @@ body {
 
 @layer base {
   :root {
-    /* PRD Colors for "Apple-inspired" theme:
-       Primary color: Vibrant Blue (e.g., #007AFF -> hsl(210, 100%, 50%))
-       Background color: Off-white/Light Gray (e.g., #F5F5F7 -> hsl(240, 8%, 97%))
-       Accent color: Bright Orange (e.g., #FF9500 -> hsl(36, 100%, 50%))
-       Card Background: White with slight transparency (handled by element opacity)
-    */
-
     /* Light Theme */
-    --background-start-hsl: 240 8% 97%; /* Light Gray */
-    --background-end-hsl: 240 10% 95%;  /* Slightly darker Light Gray */
+    --background-start-hsl: 240 8% 97%;
+    --background-end-hsl: 240 10% 95%;
     --background: var(--background-start-hsl);
 
-    --foreground: 240 10% 10%; /* Near Black for text */
+    --foreground: 240 10% 10%;
 
-    --card: 0 0% 100%; /* Pure White for cards */
+    --card: 0 0% 100%;
     --card-foreground: 240 10% 15%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 15%;
 
-    --primary-start-hsl: 210 100% 50%;  /* Vibrant Blue */
-    --primary-end-hsl: 210 95% 55%;    /* Slightly lighter Vibrant Blue */
+    --primary-start-hsl: 210 100% 50%;
+    --primary-end-hsl: 210 95% 55%;
     --primary-start-hover-hsl: 210 100% 55%;
     --primary-end-hover-hsl: 210 95% 60%;
-    --primary: var(--primary-start-hsl);
-    --primary-foreground: 0 0% 100%; /* White */
+    --primary: var(--primary-start-hsl); /* Base for non-gradient primary */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 5% 90%; /* Light muted gray */
+    --secondary: 240 5% 90%;
     --secondary-foreground: 240 10% 20%;
 
     --muted: 240 5% 90%;
     --muted-foreground: 240 5% 45%;
 
-    --accent-start-hsl: 36 100% 50%;   /* Bright Orange */
-    --accent-end-hsl: 36 95% 55%;     /* Slightly lighter Bright Orange */
+    --accent-start-hsl: 36 100% 50%;
+    --accent-end-hsl: 36 95% 55%;
     --accent-start-hover-hsl: 36 100% 55%;
     --accent-end-hover-hsl: 36 95% 60%;
-    --accent: var(--accent-start-hsl);
-    --accent-foreground: 0 0% 100%; /* White for high contrast */
+    --accent: var(--accent-start-hsl); /* Base for non-gradient accent */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 240 5% 85%;
     --input: 240 5% 92%;
-    --ring: 210 100% 50%; /* Vibrant Blue for focus rings */
+    --ring: 210 100% 50%;
 
     --chart-1: hsl(var(--primary-start-hsl));
     --chart-2: hsl(var(--accent-start-hsl));
-    --chart-3: 190 60% 50%; /* Teal */
-    --chart-4: 270 60% 60%; /* Purple */
-    --chart-5: 320 60% 65%; /* Pink */
+    --chart-3: 190 60% 50%;
+    --chart-4: 270 60% 60%;
+    --chart-5: 320 60% 65%;
 
     --radius: 0.75rem;
 
-    /* Sidebar using solid colors from the palette */
-    --sidebar-background: 240 8% 96%; /* Slightly off-white, matching overall bg */
+    --sidebar-background: 240 8% 96%;
     --sidebar-foreground: 240 10% 25%;
     --sidebar-primary: hsl(var(--primary-start-hsl));
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 5% 90%; /* Lighter accent for sidebar items */
+    --sidebar-accent: 240 5% 90%;
     --sidebar-accent-foreground: hsl(var(--primary-start-hsl));
     --sidebar-border: 240 5% 88%;
     --sidebar-ring: hsl(var(--primary-start-hsl));
@@ -76,19 +68,19 @@ body {
 
   .dark {
     /* Dark Theme */
-    --background-start-hsl: 240 5% 10%;  /* Very Dark Gray/Blue */
-    --background-end-hsl: 240 6% 12%;    /* Slightly lighter Dark Gray/Blue */
+    --background-start-hsl: 240 5% 10%;
+    --background-end-hsl: 240 6% 12%;
     --background: var(--background-start-hsl);
 
-    --foreground: 240 5% 85%; /* Light gray for text */
+    --foreground: 240 5% 85%;
 
-    --card: 240 4% 15%; /* Darker card background */
+    --card: 240 4% 15%;
     --card-foreground: 240 5% 85%;
 
     --popover: 240 4% 15%;
     --popover-foreground: 240 5% 85%;
 
-    --primary-start-hsl: 210 100% 55%; /* Brighter Blue for dark mode */
+    --primary-start-hsl: 210 100% 55%;
     --primary-end-hsl: 210 95% 60%;
     --primary-start-hover-hsl: 210 100% 60%;
     --primary-end-hover-hsl: 210 95% 65%;
@@ -101,12 +93,12 @@ body {
     --muted: 240 5% 20%;
     --muted-foreground: 240 5% 55%;
 
-    --accent-start-hsl: 36 100% 55%;   /* Brighter Orange for dark mode */
+    --accent-start-hsl: 36 100% 55%;
     --accent-end-hsl: 36 95% 60%;
     --accent-start-hover-hsl: 36 100% 60%;
     --accent-end-hover-hsl: 36 95% 65%;
     --accent: var(--accent-start-hsl);
-    --accent-foreground: 0 0% 10%; /* Dark text on bright accent for contrast */
+    --accent-foreground: 0 0% 10%;
 
     --destructive: 0 60% 50%;
     --destructive-foreground: 0 0% 100%;
@@ -121,7 +113,7 @@ body {
     --chart-4: 270 50% 65%;
     --chart-5: 320 50% 70%;
 
-    --sidebar-background: 240 5% 12%; /* Dark sidebar */
+    --sidebar-background: 240 5% 12%;
     --sidebar-foreground: 240 5% 80%;
     --sidebar-primary: hsl(var(--primary-start-hsl));
     --sidebar-primary-foreground: 0 0% 100%;
@@ -145,9 +137,11 @@ body {
   .bg-primary {
     background-image: linear-gradient(to right, hsl(var(--primary-start-hsl)), hsl(var(--primary-end-hsl)));
   }
-  .hover\\:bg-primary\\/90:hover {
+  /* Use this class for a gradient hover effect on primary elements */
+  .hover\:bg-primary-gradient:hover {
     background-image: linear-gradient(to right, hsl(var(--primary-start-hover-hsl)), hsl(var(--primary-end-hover-hsl)));
   }
+
   .text-primary {
     color: hsl(var(--primary-start-hsl));
   }
@@ -158,29 +152,25 @@ body {
    .bg-accent {
      background-image: linear-gradient(to right, hsl(var(--accent-start-hsl)), hsl(var(--accent-end-hsl)));
    }
-   .hover\\:bg-accent:hover {
-    background-image: linear-gradient(to right, hsl(var(--accent-start-hover-hsl)), hsl(var(--accent-end-hover-hsl)));
-   }
-   .hover\\:bg-accent\\/90:hover {
+   /* Use this class for a gradient hover effect on accent elements */
+   .hover\:bg-accent-gradient:hover {
     background-image: linear-gradient(to right, hsl(var(--accent-start-hover-hsl)), hsl(var(--accent-end-hover-hsl)));
    }
    .text-accent {
     color: hsl(var(--accent-start-hsl));
    }
 
+   /* Dark mode specific overrides */
    .dark .bg-primary {
     background-image: linear-gradient(to right, hsl(var(--primary-start-hsl)), hsl(var(--primary-end-hsl)));
    }
-   .dark .hover\\:bg-primary\\/90:hover {
+   .dark .hover\:bg-primary-gradient:hover {
     background-image: linear-gradient(to right, hsl(var(--primary-start-hover-hsl)), hsl(var(--primary-end-hover-hsl)));
    }
    .dark .bg-accent {
      background-image: linear-gradient(to right, hsl(var(--accent-start-hsl)), hsl(var(--accent-end-hsl)));
    }
-   .dark .hover\\:bg-accent:hover {
-    background-image: linear-gradient(to right, hsl(var(--accent-start-hover-hsl)), hsl(var(--accent-end-hover-hsl)));
-   }
-   .dark .hover\\:bg-accent\\/90:hover {
+   .dark .hover\:bg-accent-gradient:hover {
     background-image: linear-gradient(to right, hsl(var(--accent-start-hover-hsl)), hsl(var(--accent-end-hover-hsl)));
    }
    
