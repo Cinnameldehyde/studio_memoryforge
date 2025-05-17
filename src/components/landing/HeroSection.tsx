@@ -2,16 +2,13 @@
 "use client";
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import Image from 'next/image';
-import { motion } from 'framer-motion'; // For more advanced animations if needed
+// import Image from 'next/image'; // Image no longer used here for low-opacity background
+import { motion } from 'framer-motion';
 
 export function HeroSection() {
   return (
     <section className="relative py-20 md:py-32 min-h-[80vh] flex items-center justify-center text-center overflow-hidden bg-transparent">
-      <div className="absolute inset-0 opacity-10">
-        {/* Subtle background pattern or image if desired */}
-         <Image src="https://placehold.co/1920x1080/000000/333333.png?text=." alt="Abstract background" layout="fill" objectFit="cover" data-ai-hint="abstract background" />
-      </div>
+      {/* The div with the opacity-10 image has been removed */}
       
       <div className="container mx-auto px-4 z-10">
         <motion.h1 
@@ -40,9 +37,7 @@ export function HeroSection() {
           </Button>
         </motion.div>
       </div>
-       {/* Decorative shapes - conceptual, can be SVGs or styled divs */}
-      <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-primary/10 rounded-full filter blur-3xl opacity-50 animate-pulse-slow"></div>
-      <div className="absolute -top-20 -right-20 w-96 h-96 bg-accent/10 rounded-full filter blur-3xl opacity-50 animate-pulse-slow animation-delay-2000"></div>
+       {/* Decorative shapes (the blurred circles) have been removed */}
     </section>
   );
 }
