@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
 import { Loader2 } from 'lucide-react';
-// import Image from 'next/image'; // Not currently used on this page after removing floating elements
 import { cn } from '@/lib/utils';
 
 export default function LandingPage() {
@@ -68,8 +67,14 @@ export default function LandingPage() {
         <CallToActionSection />
       </main>
 
-      <footer className="py-12 text-center text-muted-foreground relative z-0"> {/* Removed bg-slate-900 */}
-        <div className="container mx-auto">
+      <footer className="
+        py-12 text-center text-muted-foreground relative z-0
+        before:content-['']
+        before:absolute before:inset-x-0 before:bottom-0 before:h-full
+        before:bg-gradient-to-t before:from-black/70 before:to-transparent
+        before:z-[-1] before:pointer-events-none
+      ">
+        <div className="container mx-auto relative"> {/* Ensure content is above pseudo-element */}
           <AppLogo className="text-xl justify-center mb-4" />
           <p>&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
           <p className="text-sm mt-2">Forge Your Knowledge, Master Your Mind.</p>
@@ -78,4 +83,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
