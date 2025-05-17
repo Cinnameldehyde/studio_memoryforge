@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
 import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 // Simple parallax container
 const ParallaxContainer = ({ children, speed = 0.1 }: { children: React.ReactNode, speed?: number }) => {
@@ -32,8 +33,8 @@ const ParallaxContainer = ({ children, speed = 0.1 }: { children: React.ReactNod
 };
 
 
-// Floating element (conceptual, will use CSS for actual floating)
-const FloatingElement = ({ className, children, initialX, initialY, animationDelay }: { className?: string, children: React.ReactNode, initialX?: string, initialY?: string, animationDelay?: string }) => {
+// Floating element
+const FloatingElement = ({ className, children, initialX, initialY, animationDelay, rotationX = 0, rotationY = 0, rotationZ = 0 }: { className?: string, children: React.ReactNode, initialX?: string, initialY?: string, animationDelay?: string, rotationX?: number, rotationY?: number, rotationZ?: number }) => {
   return (
     <div
       className={cn("absolute animate-float hover:animate-float-plus-hover transition-all duration-300", className)}
@@ -41,6 +42,7 @@ const FloatingElement = ({ className, children, initialX, initialY, animationDel
         left: initialX,
         top: initialY,
         animationDelay: animationDelay,
+        transform: `rotateX(${rotationX}deg) rotateY(${rotationY}deg) rotateZ(${rotationZ}deg)`,
       }}
     >
       {children}
@@ -66,7 +68,7 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-slate-900 text-foreground flex flex-col overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-background via-slate-900/90 to-slate-900 text-foreground flex flex-col overflow-x-hidden">
       <header className="sticky top-0 z-50 py-4 px-4 sm:px-8 bg-background/80 backdrop-blur-md shadow-sm">
         <div className="container mx-auto flex justify-between items-center">
           <AppLogo className="text-2xl" />
@@ -74,7 +76,7 @@ export default function LandingPage() {
             {isLoading ? (
               <Loader2 className="h-5 w-5 animate-spin" />
             ) : user ? (
-              <Button asChild variant="default" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+              <Button asChild variant="default" className="bg-primary hover:bg-primary-gradient text-primary-foreground">
                 <Link href="/dashboard">Go to Dashboard</Link>
               </Button>
             ) : (
@@ -82,7 +84,7 @@ export default function LandingPage() {
                 <Button asChild variant="ghost" className="hover:text-primary">
                   <Link href="/login">Login</Link>
                 </Button>
-                <Button asChild variant="default" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                <Button asChild variant="default" className="bg-primary hover:bg-primary-gradient text-primary-foreground">
                   <Link href="/signup">Get Started</Link>
                 </Button>
               </>
@@ -92,33 +94,39 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-grow">
-        <div className="relative overflow-hidden"> {/* Container for floating elements */}
-          {isClient && ( // Render floating elements only on client-side to avoid hydration issues with random positions/animations
+        {/* Container for floating elements, with perspective and z-index to allow overlap */}
+        <div className="relative perspective" style={{ zIndex: 10 }}> 
+          {isClient && ( 
             <>
-            <FloatingElement initialX="10%" initialY="20%" animationDelay="0s" className="opacity-30">
-               <Image src="https://placehold.co/150x150/7c3aed/ffffff.png?text=MF1" alt="Abstract shape 1" width={150} height={150} className="rounded-full shadow-2xl" data-ai-hint="abstract tech" />
+            <FloatingElement initialX="10%" initialY="20%" animationDelay="0s" rotationY={15} rotationX={-5} className="opacity-70">
+               <Image src="https://placehold.co/200x280/6d28d9/ffffff.png?text=Q:\nWhat+is+AI?" alt="Example Flashcard 1" width={150} height={210} className="rounded-lg shadow-2xl" data-ai-hint="flashcard design" />
             </FloatingElement>
-             <FloatingElement initialX="80%" initialY="10%" animationDelay="1s" className="opacity-20">
-                <Image src="https://placehold.co/100x100/ec4899/ffffff.png?text=MF2" alt="Abstract shape 2" width={100} height={100} className="rounded-lg shadow-2xl" data-ai-hint="abstract data" />
+             <FloatingElement initialX="80%" initialY="10%" animationDelay="1s" rotationY={-20} rotationX={10} className="opacity-60">
+                <Image src="https://placehold.co/180x250/db2777/ffffff.png?text=A:\nMagic!" alt="Example Flashcard 2" width={120} height={175} className="rounded-md shadow-2xl" data-ai-hint="study interface" />
             </FloatingElement>
-             <FloatingElement initialX="5%" initialY="70%" animationDelay="2s" className="opacity-25">
-                <Image src="https://placehold.co/120x120/22d3ee/ffffff.png?text=MF3" alt="Abstract shape 3" width={120} height={120} className="rounded-2xl shadow-2xl" data-ai-hint="abstract learning" />
+             <FloatingElement initialX="5%" initialY="70%" animationDelay="2s" rotationY={10} rotationX={5} className="opacity-65">
+                <Image src="https://placehold.co/220x300/16a34a/ffffff.png?text=Learn\nAnything" alt="Example Flashcard 3" width={160} height={220} className="rounded-xl shadow-2xl" data-ai-hint="learning tool" />
             </FloatingElement>
-            <FloatingElement initialX="85%" initialY="60%" animationDelay="0.5s" className="opacity-30">
-               <Image src="https://placehold.co/180x180/f97316/ffffff.png?text=MF4" alt="Abstract shape 4" width={180} height={180} className="rounded-full shadow-2xl" data-ai-hint="abstract memory" />
+            <FloatingElement initialX="85%" initialY="60%" animationDelay="0.5s" rotationY={-10} rotationX={-8} className="opacity-70">
+               <Image src="https://placehold.co/200x280/f59e0b/ffffff.png?text=Memory\nBoost" alt="Example Flashcard 4" width={150} height={210} className="rounded-lg shadow-2xl" data-ai-hint="knowledge retention" />
             </FloatingElement>
             </>
           )}
-          <ParallaxContainer speed={0.05}>
-            <HeroSection />
+          {/* Main content sections, z-index needs to be lower if floating elements are to overlap */}
+          <div className="relative" style={{ zIndex: 1 }}>
+            <ParallaxContainer speed={0.05}>
+              <HeroSection />
+            </ParallaxContainer>
+          </div>
+        </div>
+        <div className="relative" style={{ zIndex: 1 }}> {/* Ensure other sections also respect z-index for overlap */}
+          <ParallaxContainer speed={0.02}>
+            <FeaturesSection />
+          </ParallaxContainer>
+          <ParallaxContainer speed={0.01}>
+           <CallToActionSection />
           </ParallaxContainer>
         </div>
-        <ParallaxContainer speed={0.02}>
-          <FeaturesSection />
-        </ParallaxContainer>
-        <ParallaxContainer speed={0.01}>
-         <CallToActionSection />
-        </ParallaxContainer>
       </main>
 
       <footer className="py-12 bg-slate-900 text-center text-muted-foreground">
@@ -130,9 +138,4 @@ export default function LandingPage() {
       </footer>
     </div>
   );
-}
-
-// Helper function to combine class names (if not already available via clsx or similar)
-function cn(...classes: (string | undefined | null | false)[]) {
-  return classes.filter(Boolean).join(' ');
 }
