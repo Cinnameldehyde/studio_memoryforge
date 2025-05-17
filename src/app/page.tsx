@@ -103,7 +103,7 @@ export default function LandingPage() {
         aria-hidden="true"
       />
 
-      <header className="fixed top-4 inset-x-0 mx-auto w-full max-w-screen-md z-50 bg-neutral-800/40 backdrop-blur-md shadow-lg rounded-xl">
+      <header className="fixed top-4 left-4 right-4 md:inset-x-0 md:mx-auto md:w-full md:max-w-screen-md z-50 bg-neutral-800/40 backdrop-blur-md shadow-lg rounded-xl">
         <div className="flex items-center justify-center md:justify-between px-4 sm:px-6 py-3">
           <AppLogo className="text-lg sm:text-xl !text-white text-shadow-sm" />
           
