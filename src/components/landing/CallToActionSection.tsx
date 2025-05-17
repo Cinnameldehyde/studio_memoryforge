@@ -8,11 +8,11 @@ interface CallToActionSectionProps {
   id: string;
 }
 
-export const CallToActionSection = React.forwardRef<HTMLDivElement, CallToActionSectionProps>(({ id }, ref) => {
+export const CallToActionSection = React.memo(React.forwardRef<HTMLDivElement, CallToActionSectionProps>(({ id }, ref) => {
   return (
     <section id={id} ref={ref} className="relative py-12 md:py-16 overflow-hidden bg-transparent">
       <div className="container mx-auto px-4 text-center z-10 relative">
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -21,7 +21,7 @@ export const CallToActionSection = React.forwardRef<HTMLDivElement, CallToAction
         >
           Ready to Forge Your Memory?
         </motion.h2>
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -43,7 +43,5 @@ export const CallToActionSection = React.forwardRef<HTMLDivElement, CallToAction
       </div>
     </section>
   );
-});
+}));
 CallToActionSection.displayName = 'CallToActionSection';
-
-    

@@ -3,6 +3,7 @@ import type { LucideIcon } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import React from 'react';
 
 interface FeatureCardProps {
   icon: LucideIcon;
@@ -11,7 +12,7 @@ interface FeatureCardProps {
   delay?: number;
 }
 
-export function FeatureCard({ icon: Icon, title, description, delay = 0 }: FeatureCardProps) {
+export const FeatureCard = React.memo(function FeatureCard({ icon: Icon, title, description, delay = 0 }: FeatureCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -22,8 +23,8 @@ export function FeatureCard({ icon: Icon, title, description, delay = 0 }: Featu
     >
       <Card className={cn(
         "h-full border-border/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col",
-        "bg-gradient-to-tr from-[hsl(var(--card))]/70 via-[hsl(var(--card))]/50 to-[hsl(var(--card))]/30", 
-        "dark:from-[hsl(var(--card))]/70 dark:via-[hsl(var(--card))]/50 dark:to-[hsl(var(--card))]/30", 
+        "bg-gradient-to-tr from-[hsl(var(--card))]/70 via-[hsl(var(--card))]/50 to-[hsl(var(--card))]/30",
+        "dark:from-[hsl(var(--card))]/70 dark:via-[hsl(var(--card))]/50 dark:to-[hsl(var(--card))]/30",
         "backdrop-blur-md"
       )}>
         <CardHeader className="items-center text-center">
@@ -38,4 +39,5 @@ export function FeatureCard({ icon: Icon, title, description, delay = 0 }: Featu
       </Card>
     </motion.div>
   );
-}
+});
+FeatureCard.displayName = 'FeatureCard';

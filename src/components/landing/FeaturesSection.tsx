@@ -30,7 +30,7 @@ interface FeaturesSectionProps {
   id: string;
 }
 
-export const FeaturesSection = React.forwardRef<HTMLDivElement, FeaturesSectionProps>(({ id }, ref) => {
+export const FeaturesSection = React.memo(React.forwardRef<HTMLDivElement, FeaturesSectionProps>(({ id }, ref) => {
   return (
     <section id={id} ref={ref} className="py-12 md:py-16 bg-transparent">
       <div className="container mx-auto px-4">
@@ -44,10 +44,10 @@ export const FeaturesSection = React.forwardRef<HTMLDivElement, FeaturesSectionP
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (
-            <FeatureCard 
-              key={feature.title} 
-              icon={feature.icon} 
-              title={feature.title} 
+            <FeatureCard
+              key={feature.title}
+              icon={feature.icon}
+              title={feature.title}
               description={feature.description}
               delay={index * 0.15}
             />
@@ -56,7 +56,5 @@ export const FeaturesSection = React.forwardRef<HTMLDivElement, FeaturesSectionP
       </div>
     </section>
   );
-});
+}));
 FeaturesSection.displayName = 'FeaturesSection';
-
-    
