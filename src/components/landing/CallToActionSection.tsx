@@ -3,9 +3,13 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-export function CallToActionSection() {
+interface CallToActionSectionProps {
+  id: string;
+}
+
+export function CallToActionSection({ id }: CallToActionSectionProps) {
   return (
-    <section className="relative py-12 md:py-20 overflow-hidden bg-transparent">
+    <section id={id} className="relative py-16 md:py-20 overflow-hidden bg-transparent">
       <div className="container mx-auto px-4 text-center z-10 relative">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}

@@ -25,9 +25,13 @@ const features = [
   },
 ];
 
-export function FeaturesSection() {
+interface FeaturesSectionProps {
+  id: string;
+}
+
+export function FeaturesSection({ id }: FeaturesSectionProps) {
   return (
-    <section className="py-12 md:py-20 bg-transparent">
+    <section id={id} className="py-16 md:py-20 bg-transparent">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-white text-shadow-md mb-4">
