@@ -62,7 +62,7 @@ export default function LandingPage() {
 
       <header className="sticky top-4 inset-x-4 md:left-auto md:right-auto md:mx-auto md:max-w-5xl z-50 bg-black/70 backdrop-blur-md shadow-lg rounded-xl">
         <div className="flex justify-between items-center px-6 py-3">
-          <AppLogo className="text-2xl !text-white" />
+          <AppLogo className="text-2xl !text-white text-shadow-sm" />
           <nav className="hidden md:flex space-x-1 items-center">
             {navItems.map((item) => (
               <Link key={item.name} href={item.href} legacyBehavior passHref>
@@ -75,7 +75,7 @@ export default function LandingPage() {
                   {hoveredTab === item.name && (
                     <motion.div
                       className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                      layoutId="underline"
+                      layoutId="underline" // Unique layoutId for top nav
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -113,7 +113,7 @@ export default function LandingPage() {
         <CallToActionSection id="cta" />
       </main>
 
-      {/* Bottom Navigation for mobile */}
+      {/* Bottom Navigation for mobile, appears on scroll */}
       <AnimatePresence>
         {showBottomNav && (
           <motion.nav
@@ -135,7 +135,7 @@ export default function LandingPage() {
                   {hoveredBottomTab === item.name && (
                     <motion.div
                       className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                      layoutId="underline-bottom" 
+                      layoutId="underline-bottom" // Unique layoutId for bottom nav
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
