@@ -47,6 +47,8 @@ export function LoginForm() {
   const handleGoogleSignIn = async () => {
     await signInWithGoogle(); 
   };
+  
+  const buttonClassName = "w-full font-bold bg-background text-primary border-2 border-primary rounded-md h-10 px-4 py-2 hover:ring-2 hover:ring-primary hover:ring-offset-1 hover:ring-offset-background transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
 
   return (
     <Card className="w-full shadow-xl bg-card/80 backdrop-blur-md border-border/50">
@@ -83,7 +85,7 @@ export function LoginForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full bg-primary hover:bg-primary-gradient" disabled={isLoading}>
+            <Button type="submit" className={buttonClassName} disabled={isLoading}>
               {isLoading ? 'Logging in...' : 'Login with Email'}
             </Button>
             <div className="relative my-4">
@@ -98,7 +100,7 @@ export function LoginForm() {
             </div>
             <Button 
               type="button" 
-              className="w-full bg-primary hover:bg-primary-gradient" 
+              className={buttonClassName}
               onClick={handleGoogleSignIn} 
               disabled={isLoading}
             >

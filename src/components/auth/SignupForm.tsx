@@ -49,6 +49,8 @@ export function SignupForm() {
     await signInWithGoogle();
   };
 
+  const buttonClassName = "w-full font-bold bg-background text-primary border-2 border-primary rounded-md h-10 px-4 py-2 hover:ring-2 hover:ring-primary hover:ring-offset-1 hover:ring-offset-background transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+
   return (
     <Card className="w-full shadow-xl bg-card/80 backdrop-blur-md border-border/50">
       <CardHeader>
@@ -97,7 +99,7 @@ export function SignupForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full bg-primary hover:bg-primary-gradient" disabled={isLoading}>
+            <Button type="submit" className={buttonClassName} disabled={isLoading}>
               {isLoading ? 'Creating account...' : 'Create Account with Email'}
             </Button>
             
@@ -113,7 +115,7 @@ export function SignupForm() {
             </div>
             <Button 
               type="button" 
-              className="w-full bg-primary hover:bg-primary-gradient" 
+              className={buttonClassName} 
               onClick={handleGoogleSignIn} 
               disabled={isLoading}
             >
