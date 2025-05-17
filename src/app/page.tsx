@@ -21,11 +21,12 @@ const navItems = [
 export default function LandingPage() {
   const { user, isLoading } = useAuth();
   const [isClient, setIsClient] = useState(false);
-  const [hoveredTab, setHoveredTab] = useState<string | null>(null); 
+  const [hoveredTab, setHoveredTab] = useState<string | null>(null);
 
   useEffect(() => {
     setIsClient(true);
-  }, []); 
+  }, []);
+
 
   if (isLoading && !isClient) {
     return (
@@ -46,22 +47,28 @@ export default function LandingPage() {
         <div className="flex justify-between items-center px-6 py-3">
           <AppLogo className="text-2xl !text-white text-shadow-sm" />
           <nav
-            className="hidden md:flex space-x-1 items-center relative"
-            onMouseLeave={() => setHoveredTab(null)} 
+            className="hidden md:flex space-x-1 items-center relative md:mx-6"
+            onMouseLeave={() => setHoveredTab(null)}
           >
             {navItems.map((item) => (
               <Link key={item.name} href={item.href} legacyBehavior passHref>
                 <motion.a
                   className="relative px-3 py-2 text-sm font-medium text-white text-shadow-sm rounded-md"
                   onHoverStart={() => setHoveredTab(item.name)}
-                  onClick={() => setHoveredTab(item.name)} 
-                  href={item.href} 
+                  onClick={() => {
+                     setHoveredTab(item.name);
+                     // Smooth scroll to section
+                     const element = document.querySelector(item.href);
+                     if (element) {
+                       element.scrollIntoView({ behavior: 'smooth' });
+                     }
+                  }}
+                  href={item.href}
                 >
                   {hoveredTab === item.name && (
                     <motion.div
                       className="absolute inset-0 bg-white/10 rounded-full z-0"
                       layoutId="active-nav-pill"
-                      animate={{ opacity: 1 }} 
                       transition={{ type: "spring", bounce: 0.1, duration: 0.3 }}
                     />
                   )}
@@ -79,7 +86,6 @@ export default function LandingPage() {
               </Button>
             ) : (
               <>
-                {/* Login button removed */}
                 <Button asChild variant="default" size="sm" className="bg-primary hover:bg-primary-gradient text-primary-foreground">
                   <Link href="/signup">Get Started</Link>
                 </Button>
