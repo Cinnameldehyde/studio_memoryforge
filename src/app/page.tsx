@@ -21,7 +21,7 @@ const navItems = [
 export default function LandingPage() {
   const { user, isLoading } = useAuth();
   const [isClient, setIsClient] = useState(false);
-  const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+  const [hoveredTab, setHoveredTab] = useState<string | null>(navItems[0].name); // Default to first item
 
   useEffect(() => {
     setIsClient(true);
@@ -45,18 +45,19 @@ export default function LandingPage() {
       <header className="sticky top-4 inset-x-4 md:left-auto md:right-auto md:mx-auto md:max-w-5xl z-50 bg-black/70 backdrop-blur-md shadow-lg rounded-xl">
         <div className="flex justify-between items-center px-6 py-3">
           <AppLogo className="text-2xl !text-white text-shadow-sm" />
-          <nav className="hidden md:flex space-x-2 items-center relative"> {/* Increased space-x-1 to space-x-2 */}
+          <nav className="hidden md:flex space-x-2 items-center relative">
             {navItems.map((item) => (
               <Link key={item.name} href={item.href} legacyBehavior passHref>
                 <motion.a
                   className="relative px-3 py-2 text-sm font-medium text-white text-shadow-sm rounded-md transition-colors"
                   onHoverStart={() => setHoveredTab(item.name)}
-                  onHoverEnd={() => setHoveredTab(null)}
-                  href={item.href} // Ensure href is passed for scrolling
+                  onHoverEnd={() => setHoveredTab(null)} // Or set to default if you always want one active visually
+                  onClick={() => setHoveredTab(item.name)} // Keep pill on clicked item
+                  href={item.href} 
                 >
                   {hoveredTab === item.name && (
                     <motion.div
-                      className="absolute inset-0 bg-white/10 rounded-md z-0" // Pill background
+                      className="absolute inset-0 bg-white/10 rounded-full z-0" // Changed to rounded-full
                       layoutId="active-nav-pill"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -64,7 +65,7 @@ export default function LandingPage() {
                       transition={{ type: "spring", bounce: 0.1, duration: 0.3 }}
                     />
                   )}
-                  <span className="relative z-10">{item.name}</span> {/* Text on top of pill */}
+                  <span className="relative z-10">{item.name}</span>
                 </motion.a>
               </Link>
             ))}
