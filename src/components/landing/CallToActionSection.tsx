@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 export function CallToActionSection() {
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden bg-transparent">
+    <section className="relative py-12 md:py-20 overflow-hidden bg-transparent">
       <div className="container mx-auto px-4 text-center z-10 relative">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
