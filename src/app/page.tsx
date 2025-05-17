@@ -68,7 +68,7 @@ export default function LandingPage() {
       </main>
 
       <footer className="
-        py-12 text-center text-muted-foreground relative z-0
+        py-12 text-center relative z-0
         before:content-['']
         before:absolute before:inset-x-0 before:bottom-0 before:h-full
         before:bg-gradient-to-t before:from-black/70 before:to-transparent
@@ -76,8 +76,8 @@ export default function LandingPage() {
       ">
         <div className="container mx-auto relative"> {/* Ensure content is above pseudo-element */}
           <AppLogo className="text-xl justify-center mb-4" />
-          <p>&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
-          <p className="text-sm mt-2">Forge Your Knowledge, Master Your Mind.</p>
+          <p className="text-white text-shadow-sm">&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
+          <p className="text-sm mt-2 text-white text-shadow-sm">Forge Your Knowledge, Master Your Mind.</p>
         </div>
       </footer>
     </div>
