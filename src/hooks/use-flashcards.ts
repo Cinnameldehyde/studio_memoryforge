@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -5,7 +6,7 @@ import type { Flashcard, Rating, DailyReviewSummary } from '@/lib/types';
 import { calculateSrsParameters, initializeSm2Parameters, checkIsMastered } from '@/lib/sm2';
 import { useLocalStorage } from './use-local-storage';
 import { useAuth } from './use-auth';
-import { formatISO, parseISO, isToday, startOfDay, isBefore, isEqual, format } from 'date-fns';
+import { formatISO, parseISO, isToday, startOfDay, isBefore, isEqual, format, addDays } from 'date-fns';
 import { useToast } from './use-toast';
 
 const FLASHCARDS_STORAGE_KEY_PREFIX = 'memoryforge-flashcards-';
@@ -214,3 +215,4 @@ export function useFlashcards(): UseFlashcardsReturn {
     resetCardProgress,
   };
 }
+
