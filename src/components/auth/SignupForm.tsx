@@ -111,7 +111,12 @@ export function SignupForm() {
                 </span>
               </div>
             </div>
-            <Button variant="outline" type="button" className="w-full" onClick={handleGoogleSignIn} disabled={isLoading}>
+            <Button 
+              type="button" 
+              className="w-full bg-primary hover:bg-primary-gradient" 
+              onClick={handleGoogleSignIn} 
+              disabled={isLoading}
+            >
               <GoogleIcon />
               Sign up with Google
             </Button>
