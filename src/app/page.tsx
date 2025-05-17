@@ -127,7 +127,7 @@ export default function LandingPage() {
                   }}
                   href={item.href}
                 >
-                  {displayTab === item.name && (
+                  {(displayTab === item.name) && (
                     <motion.div
                       className="absolute inset-0 bg-white/10 rounded-full z-0"
                       layoutId="active-nav-pill"
@@ -173,8 +173,16 @@ export default function LandingPage() {
           <AppLogo className="text-xl !text-white text-shadow-sm justify-center mb-4" />
           <p className="text-sm text-white/90 text-shadow-sm">&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
           <p className="text-xs mt-2 text-white/80 text-shadow-sm">Forge Your Knowledge, Master Your Mind.</p>
+          <div className="mt-4 flex justify-center items-center space-x-3 sm:space-x-4 text-xs text-white/80 text-shadow-sm">
+            <Link href="#" className="hover:underline">Privacy Policy</Link>
+            <span className="opacity-50">|</span>
+            <Link href="#" className="hover:underline">Terms & Conditions</Link>
+            <span className="opacity-50">|</span>
+            <Link href="#" className="hover:underline">Contact Us</Link>
+          </div>
         </div>
       </footer>
     </div>
   );
 }
+

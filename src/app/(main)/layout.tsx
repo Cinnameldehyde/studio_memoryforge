@@ -8,7 +8,8 @@ import { useAuth } from '@/hooks/use-auth';
 import { AppLogo } from '@/components/shared/AppLogo';
 import { UserNav } from '@/components/layout/UserNav';
 import { SidebarNav } from '@/components/layout/SidebarNav';
-import { mainNavItems } from '@/config/site';
+import { mainNavItems, APP_NAME } from '@/config/site';
+import Link from 'next/link';
 import {
   SidebarProvider,
   Sidebar,
@@ -39,7 +40,7 @@ function MainContent({ children, isPinned }: { children: ReactNode, isPinned: bo
   };
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col"> {/* Ensures footer can be pushed down */}
       <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-border/50 bg-background/80 px-4 backdrop-blur-md md:justify-end">
         {isMobile && (
           <SidebarTrigger asChild>
@@ -64,6 +65,17 @@ function MainContent({ children, isPinned }: { children: ReactNode, isPinned: bo
       <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
         {children}
       </main>
+      <footer className="border-t border-border/50 py-3 text-center text-xs text-muted-foreground">
+        <div className="container mx-auto flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-3">
+          <span>&copy; {new Date().getFullYear()} {APP_NAME}. All rights reserved.</span>
+          <span className="hidden sm:inline opacity-50">|</span>
+          <Link href="#" className="hover:underline">Privacy Policy</Link>
+          <span className="hidden sm:inline opacity-50">|</span>
+          <Link href="#" className="hover:underline">Terms & Conditions</Link>
+          <span className="hidden sm:inline opacity-50">|</span>
+          <Link href="#" className="hover:underline">Contact Us</Link>
+        </div>
+      </footer>
     </div>
   );
 }
@@ -160,3 +172,4 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
     </SidebarProvider>
   );
 }
+
