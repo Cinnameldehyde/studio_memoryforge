@@ -2,14 +2,12 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+// import Image from 'next/image'; // Image is no longer used
 
 export function CallToActionSection() {
   return (
     <section className="relative py-20 md:py-32 overflow-hidden"> {/* Removed its own background gradient */}
-      <div className="absolute inset-0 opacity-5">
-         <Image src="https://placehold.co/1920x1080/111827/4b5563.png?text=." alt="Dark abstract texture" layout="fill" objectFit="cover" data-ai-hint="dark texture" />
-      </div>
+      {/* The div with the semi-transparent image has been removed */}
       <div className="container mx-auto px-4 text-center z-10 relative">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
