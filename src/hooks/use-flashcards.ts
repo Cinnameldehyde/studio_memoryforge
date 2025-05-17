@@ -72,7 +72,7 @@ export function useFlashcards(): UseFlashcardsReturn {
   }, [userId, setAllDailySummaries]);
 
 
-  const addFlashcard = (question: string, answer: string) => {
+  const addFlashcard = useCallback((question: string, answer: string) => {
     if (!userId) return;
     const newCard: Flashcard = {
       id: Date.now().toString(),
@@ -86,26 +86,26 @@ export function useFlashcards(): UseFlashcardsReturn {
     const updatedFlashcards = [...userFlashcards, newCard];
     saveUserFlashcards(updatedFlashcards);
     toast({ title: "Flashcard Added", description: `"${question}" has been added.` });
-  };
+  }, [userId, userFlashcards, saveUserFlashcards, toast]);
 
-  const updateFlashcardContent = (id: string, question: string, answer: string) => {
+  const updateFlashcardContent = useCallback((id: string, question: string, answer: string) => {
     const updatedFlashcards = userFlashcards.map(card =>
       card.id === id ? { ...card, question, answer } : card
     );
     saveUserFlashcards(updatedFlashcards);
     toast({ title: "Flashcard Updated", description: "Changes saved successfully." });
-  };
+  }, [userFlashcards, saveUserFlashcards, toast]);
   
-  const deleteFlashcard = (id: string) => {
+  const deleteFlashcard = useCallback((id: string) => {
     const cardToDelete = userFlashcards.find(c => c.id === id);
     const updatedFlashcards = userFlashcards.filter(card => card.id !== id);
     saveUserFlashcards(updatedFlashcards);
     if (cardToDelete) {
        toast({ title: "Flashcard Deleted", description: `"${cardToDelete.question}" has been deleted.`, variant: "destructive" });
     }
-  };
+  }, [userFlashcards, saveUserFlashcards, toast]);
 
-  const rateFlashcard = (id: string, rating: Rating) => {
+  const rateFlashcard = useCallback((id: string, rating: Rating) => {
     const card = userFlashcards.find(c => c.id === id);
     if (!card) return;
 
@@ -134,28 +134,28 @@ export function useFlashcards(): UseFlashcardsReturn {
     if (!summaryExists) {
       updatedSummaries.push({ date: todayStr, cardsReviewed: 1 });
     }
-    saveUserDailySummaries(updatedSummaries.sort((a, b) => b.date.localeCompare(a.date))); // Sort by date descending
+    saveUserDailySummaries(updatedSummaries.sort((a, b) => b.date.localeCompare(a.date))); 
 
     const message = rating >= 3 ? "Good job! Keep it up." : "No worries, you'll get it next time!";
     toast({ title: "Card Rated", description: message });
-  };
+  }, [userFlashcards, userDailySummaries, saveUserFlashcards, saveUserDailySummaries, toast]);
 
-  const getNextDueCard = (): Flashcard | undefined => {
+  const getNextDueCard = useCallback((): Flashcard | undefined => {
     const today = startOfDay(new Date());
     const dueCards = userFlashcards
       .filter(card => {
         const dueDate = startOfDay(parseISO(card.dueDate));
         return isBefore(dueDate, today) || isEqual(dueDate, today);
       })
-      .sort((a, b) => parseISO(a.dueDate).getTime() - parseISO(b.dueDate).getTime() || (a.lastReviewedAt ? parseISO(a.lastReviewedAt).getTime() : 0) - (b.lastReviewedAt ? parseISO(b.lastReviewedAt).getTime() : 0) ); // Sort by due date, then last reviewed
+      .sort((a, b) => parseISO(a.dueDate).getTime() - parseISO(b.dueDate).getTime() || (a.lastReviewedAt ? parseISO(a.lastReviewedAt).getTime() : 0) - (b.lastReviewedAt ? parseISO(b.lastReviewedAt).getTime() : 0) );
     return dueCards[0];
-  };
+  }, [userFlashcards]);
 
-  const getFlashcardById = (id: string): Flashcard | undefined => {
+  const getFlashcardById = useCallback((id: string): Flashcard | undefined => {
     return userFlashcards.find(card => card.id === id);
-  };
+  }, [userFlashcards]);
 
-  const resetCardProgress = (id: string) => {
+  const resetCardProgress = useCallback((id: string) => {
     const updatedFlashcards = userFlashcards.map(card =>
       card.id === id ? { 
         ...card, 
@@ -166,7 +166,7 @@ export function useFlashcards(): UseFlashcardsReturn {
     );
     saveUserFlashcards(updatedFlashcards);
     toast({ title: "Card Progress Reset", description: "The card is now due for review again." });
-  };
+  }, [userFlashcards, saveUserFlashcards, toast]);
 
   const calculateStats = useCallback((): FlashcardStats => {
     const today = startOfDay(new Date());
@@ -200,6 +200,11 @@ export function useFlashcards(): UseFlashcardsReturn {
   useEffect(() => {
     setStats(calculateStats());
   }, [userFlashcards, userDailySummaries, calculateStats]);
+
+  // Also ensure other functions returned by the hook that might be used as dependencies
+  // are memoized if they don't rely on frequently changing closure variables.
+  // For example, addFlashcard, updateFlashcardContent, deleteFlashcard, rateFlashcard, resetCardProgress.
+  // I've added useCallback to these as well, with their respective dependencies.
 
   return {
     flashcards: userFlashcards,
