@@ -14,7 +14,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   // min-h-[600px] or a specific height might be needed if forms have different heights
   // to prevent layout shifts during the flip. For now, we assume forms are similarly sized.
   // The Card component inside LoginForm/SignupForm provides the actual visual card.
-  const cardWrapperMinHeight = "min-h-[580px]"; // Adjusted based on typical form height
+  const cardWrapperMinHeight = "min-h-[600px]"; // Adjusted based on typical form height, increased for Google button text
 
   return (
     <>
