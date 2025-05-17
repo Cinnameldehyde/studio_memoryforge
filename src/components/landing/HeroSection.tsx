@@ -17,7 +17,7 @@ export function HeroSection({ id }: HeroSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-5xl md:text-7xl font-bold mb-6 pb-2 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary-foreground animate-gradient-x"
+          className="text-5xl md:text-7xl font-bold mb-6 pb-2 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary-foreground animate-gradient-x text-shadow-md"
         >
           Unlock Your Potential with MemoryForge
         </motion.h1>
