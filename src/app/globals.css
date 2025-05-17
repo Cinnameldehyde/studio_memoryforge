@@ -8,121 +8,126 @@ body {
 
 @layer base {
   :root {
-    /* PRD Colors:
-       Primary color: Deep Blue (#3F51B5)
-       Background color: Very light Blue Gray (#F5F6FA)
-       Accent color: Purple (#7E57C2)
-    */
-    /* Converting PRD to HSL for ShadCN:
-       #3F51B5 -> hsl(231, 48%, 54%) - Primary
-       #F5F6FA -> hsl(225, 27%, 97%) - Background (light)
-       #7E57C2 -> hsl(260, 47%, 61%) - Accent
+    /* PRD Colors for "Apple-inspired" theme:
+       Primary color: Vibrant Blue (e.g., #007AFF -> hsl(210, 100%, 50%))
+       Background color: Off-white/Light Gray (e.g., #F5F5F7 -> hsl(240, 8%, 97%))
+       Accent color: Bright Orange (e.g., #FF9500 -> hsl(36, 100%, 50%))
+       Card Background: White with slight transparency (handled by element opacity)
     */
 
-    /* Light Theme based on PRD */
-    --background-start-hsl: 225 27% 97%; /* Very light Blue Gray */
-    --background-end-hsl: 220 30% 95%; /* Slightly cooler variant for gradient */
+    /* Light Theme */
+    --background-start-hsl: 240 8% 97%; /* Light Gray */
+    --background-end-hsl: 240 10% 95%;  /* Slightly darker Light Gray */
     --background: var(--background-start-hsl);
 
-    --foreground: 231 25% 25%; /* Darker blue-gray for text */
+    --foreground: 240 10% 10%; /* Near Black for text */
 
-    --card: 0 0% 100%; /* White */
-    --card-foreground: 231 25% 20%;
+    --card: 0 0% 100%; /* Pure White for cards */
+    --card-foreground: 240 10% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 231 25% 20%;
+    --popover-foreground: 240 10% 15%;
 
-    --primary-start-hsl: 231 48% 54%; /* Deep Blue */
-    --primary-end-hsl: 235 50% 60%; /* Slightly lighter Deep Blue for gradient */
+    --primary-start-hsl: 210 100% 50%;  /* Vibrant Blue */
+    --primary-end-hsl: 210 95% 55%;    /* Slightly lighter Vibrant Blue */
+    --primary-start-hover-hsl: 210 100% 55%;
+    --primary-end-hover-hsl: 210 95% 60%;
     --primary: var(--primary-start-hsl);
     --primary-foreground: 0 0% 100%; /* White */
 
-    --secondary: 225 20% 90%;
-    --secondary-foreground: 231 25% 25%;
+    --secondary: 240 5% 90%; /* Light muted gray */
+    --secondary-foreground: 240 10% 20%;
 
-    --muted: 225 20% 90%;
-    --muted-foreground: 231 15% 50%;
+    --muted: 240 5% 90%;
+    --muted-foreground: 240 5% 45%;
 
-    --accent-start-hsl: 260 47% 61%; /* Purple */
-    --accent-end-hsl: 265 50% 65%; /* Slightly lighter Purple for gradient */
+    --accent-start-hsl: 36 100% 50%;   /* Bright Orange */
+    --accent-end-hsl: 36 95% 55%;     /* Slightly lighter Bright Orange */
+    --accent-start-hover-hsl: 36 100% 55%;
+    --accent-end-hover-hsl: 36 95% 60%;
     --accent: var(--accent-start-hsl);
-    --accent-foreground: 0 0% 100%;
+    --accent-foreground: 0 0% 100%; /* White for high contrast */
 
     --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 225 20% 88%;
-    --input: 225 20% 94%;
-    --ring: 231 48% 54%; /* Deep Blue for focus rings */
+    --border: 240 5% 85%;
+    --input: 240 5% 92%;
+    --ring: 210 100% 50%; /* Vibrant Blue for focus rings */
 
     --chart-1: hsl(var(--primary-start-hsl));
     --chart-2: hsl(var(--accent-start-hsl));
     --chart-3: 190 60% 50%; /* Teal */
-    --chart-4: 30 70% 60%;  /* Orange */
+    --chart-4: 270 60% 60%; /* Purple */
     --chart-5: 320 60% 65%; /* Pink */
 
-    --radius: 0.75rem; /* Slightly larger radius */
+    --radius: 0.75rem;
 
-    --sidebar-background: 225 25% 95%; /* Slightly off-white blue gray */
-    --sidebar-foreground: 231 25% 30%;
+    /* Sidebar using solid colors from the palette */
+    --sidebar-background: 240 8% 96%; /* Slightly off-white, matching overall bg */
+    --sidebar-foreground: 240 10% 25%;
     --sidebar-primary: hsl(var(--primary-start-hsl));
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 225 20% 88%;
+    --sidebar-accent: 240 5% 90%; /* Lighter accent for sidebar items */
     --sidebar-accent-foreground: hsl(var(--primary-start-hsl));
-    --sidebar-border: 225 20% 85%;
+    --sidebar-border: 240 5% 88%;
     --sidebar-ring: hsl(var(--primary-start-hsl));
   }
 
   .dark {
-    /* Dark Theme based on PRD principles */
-    --background-start-hsl: 231 20% 12%; /* Dark Deep Blue */
-    --background-end-hsl: 235 22% 15%;   /* Darker Deep Blue for gradient */
+    /* Dark Theme */
+    --background-start-hsl: 240 5% 10%;  /* Very Dark Gray/Blue */
+    --background-end-hsl: 240 6% 12%;    /* Slightly lighter Dark Gray/Blue */
     --background: var(--background-start-hsl);
 
-    --foreground: 225 15% 85%; /* Light gray for text */
+    --foreground: 240 5% 85%; /* Light gray for text */
 
-    --card: 231 18% 18%;
-    --card-foreground: 225 15% 85%;
+    --card: 240 4% 15%; /* Darker card background */
+    --card-foreground: 240 5% 85%;
 
-    --popover: 231 20% 12%;
-    --popover-foreground: 225 15% 85%;
+    --popover: 240 4% 15%;
+    --popover-foreground: 240 5% 85%;
 
-    --primary-start-hsl: 231 55% 65%; /* Lighter Deep Blue for dark mode */
-    --primary-end-hsl: 235 58% 70%;
+    --primary-start-hsl: 210 100% 55%; /* Brighter Blue for dark mode */
+    --primary-end-hsl: 210 95% 60%;
+    --primary-start-hover-hsl: 210 100% 60%;
+    --primary-end-hover-hsl: 210 95% 65%;
     --primary: var(--primary-start-hsl);
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 231 15% 25%;
-    --secondary-foreground: 225 15% 85%;
+    --secondary: 240 5% 20%;
+    --secondary-foreground: 240 5% 85%;
 
-    --muted: 231 15% 25%;
-    --muted-foreground: 225 10% 60%;
+    --muted: 240 5% 20%;
+    --muted-foreground: 240 5% 55%;
 
-    --accent-start-hsl: 260 55% 70%; /* Lighter Purple for dark mode */
-    --accent-end-hsl: 265 58% 75%;
+    --accent-start-hsl: 36 100% 55%;   /* Brighter Orange for dark mode */
+    --accent-end-hsl: 36 95% 60%;
+    --accent-start-hover-hsl: 36 100% 60%;
+    --accent-end-hover-hsl: 36 95% 65%;
     --accent: var(--accent-start-hsl);
-    --accent-foreground: 0 0% 100%;
+    --accent-foreground: 0 0% 10%; /* Dark text on bright accent for contrast */
 
     --destructive: 0 60% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 231 15% 30%;
-    --input: 231 15% 22%;
-    --ring: 231 55% 65%;
+    --border: 240 5% 25%;
+    --input: 240 5% 18%;
+    --ring: 210 100% 55%;
 
     --chart-1: hsl(var(--primary-start-hsl));
     --chart-2: hsl(var(--accent-start-hsl));
     --chart-3: 190 50% 55%;
-    --chart-4: 30 60% 65%;
+    --chart-4: 270 50% 65%;
     --chart-5: 320 50% 70%;
 
-    --sidebar-background: 231 18% 15%;
-    --sidebar-foreground: 225 15% 80%;
+    --sidebar-background: 240 5% 12%; /* Dark sidebar */
+    --sidebar-foreground: 240 5% 80%;
     --sidebar-primary: hsl(var(--primary-start-hsl));
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 231 15% 25%;
+    --sidebar-accent: 240 5% 20%;
     --sidebar-accent-foreground: hsl(var(--primary-start-hsl));
-    --sidebar-border: 231 15% 28%;
+    --sidebar-border: 240 5% 18%;
     --sidebar-ring: hsl(var(--primary-start-hsl));
   }
 }
@@ -133,57 +138,63 @@ body {
   }
   body {
     @apply bg-background text-foreground;
-    /* Apply a subtle gradient to the body background */
     background-image: linear-gradient(135deg, hsl(var(--background-start-hsl)), hsl(var(--background-end-hsl)));
     min-height: 100vh;
   }
 
-  /* Apply gradient to primary buttons and elements */
   .bg-primary {
     background-image: linear-gradient(to right, hsl(var(--primary-start-hsl)), hsl(var(--primary-end-hsl)));
   }
-  /* Ensure specificity for hover state for ShadCN components */
   .hover\\:bg-primary\\/90:hover {
-    background-image: linear-gradient(to right, hsl(var(--primary-start-hsl) / 0.9), hsl(var(--primary-end-hsl) / 0.9));
+    background-image: linear-gradient(to right, hsl(var(--primary-start-hover-hsl)), hsl(var(--primary-end-hover-hsl)));
   }
   .text-primary {
-    /* For text, use the start color of the gradient or a solid primary if preferred */
     color: hsl(var(--primary-start-hsl));
   }
-   .ring-primary { /* For focus rings etc. */
+   .ring-primary {
     --tw-ring-color: hsl(var(--primary-start-hsl));
   }
 
-  /* Apply gradient to accent elements */
    .bg-accent {
      background-image: linear-gradient(to right, hsl(var(--accent-start-hsl)), hsl(var(--accent-end-hsl)));
    }
+   .hover\\:bg-accent:hover {
+    background-image: linear-gradient(to right, hsl(var(--accent-start-hover-hsl)), hsl(var(--accent-end-hover-hsl)));
+   }
+   .hover\\:bg-accent\\/90:hover {
+    background-image: linear-gradient(to right, hsl(var(--accent-start-hover-hsl)), hsl(var(--accent-end-hover-hsl)));
+   }
    .text-accent {
-    color: hsl(var(--accent-start-hsl)); /* Or a gradient if text-fill is an option, simpler to use solid for text */
+    color: hsl(var(--accent-start-hsl));
    }
 
-   /* Dark mode overrides for gradients if needed, or they can inherit if the HSL vars change enough */
-   .dark .text-primary {
-     color: hsl(var(--primary-start-hsl)); /* Ensure dark mode primary text color is defined */
-   }
-   .dark .text-accent {
-     color: hsl(var(--accent-start-hsl)); /* Ensure dark mode accent text color is defined */
-   }
-   .dark .ring-primary {
-    --tw-ring-color: hsl(var(--primary-start-hsl));
-   }
    .dark .bg-primary {
     background-image: linear-gradient(to right, hsl(var(--primary-start-hsl)), hsl(var(--primary-end-hsl)));
    }
    .dark .hover\\:bg-primary\\/90:hover {
-    background-image: linear-gradient(to right, hsl(var(--primary-start-hsl) / 0.9), hsl(var(--primary-end-hsl) / 0.9));
+    background-image: linear-gradient(to right, hsl(var(--primary-start-hover-hsl)), hsl(var(--primary-end-hover-hsl)));
    }
    .dark .bg-accent {
      background-image: linear-gradient(to right, hsl(var(--accent-start-hsl)), hsl(var(--accent-end-hsl)));
    }
+   .dark .hover\\:bg-accent:hover {
+    background-image: linear-gradient(to right, hsl(var(--accent-start-hover-hsl)), hsl(var(--accent-end-hover-hsl)));
+   }
+   .dark .hover\\:bg-accent\\/90:hover {
+    background-image: linear-gradient(to right, hsl(var(--accent-start-hover-hsl)), hsl(var(--accent-end-hover-hsl)));
+   }
+   
+   .dark .text-primary {
+     color: hsl(var(--primary-start-hsl)); 
+   }
+   .dark .text-accent {
+     color: hsl(var(--accent-start-hsl)); 
+   }
+   .dark .ring-primary {
+    --tw-ring-color: hsl(var(--primary-start-hsl));
+   }
 }
 
-/* For 3D card flip animation */
 @layer utilities {
   .perspective {
     perspective: 1000px;
@@ -196,6 +207,6 @@ body {
   }
   .backface-hidden {
     backface-visibility: hidden;
-    -webkit-backface-visibility: hidden; /* For Safari */
+    -webkit-backface-visibility: hidden;
   }
 }
