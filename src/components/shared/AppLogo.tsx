@@ -18,8 +18,8 @@ export const AppLogo = React.memo(function AppLogo({ className }: AppLogoProps) 
       )}
       aria-label="MemoryForge Home"
     >
-      <BrainCircuit className="h-6 sm:h-7 w-6 sm:w-7" />
-      <span>MemoryForge</span>
+      <BrainCircuit className="h-6 sm:h-7 w-6 sm:w-7 current-color" />
+      <span className="current-color">MemoryForge</span>
     </Link>
   );
 });

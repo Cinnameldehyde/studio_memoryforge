@@ -1,4 +1,4 @@
-import { LoginForm } from '@/components/auth/LoginForm';
+
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -7,5 +7,7 @@ export const metadata: Metadata = {
 };
 
 export default function LoginPage() {
-  return <LoginForm />;
+  // The actual LoginForm UI is rendered by AuthLayout.tsx for the flip animation.
+  // This page component primarily serves for routing and metadata.
+  return null;
 }

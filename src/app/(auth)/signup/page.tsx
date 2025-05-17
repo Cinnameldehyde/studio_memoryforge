@@ -1,4 +1,4 @@
-import { SignupForm } from '@/components/auth/SignupForm';
+
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -7,5 +7,7 @@ export const metadata: Metadata = {
 };
 
 export default function SignupPage() {
-  return <SignupForm />;
+  // The actual SignupForm UI is rendered by AuthLayout.tsx for the flip animation.
+  // This page component primarily serves for routing and metadata.
+  return null;
 }
