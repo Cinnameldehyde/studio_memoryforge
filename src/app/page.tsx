@@ -42,12 +42,12 @@ export default function LandingPage() {
         aria-hidden="true"
       />
 
-      <header className="sticky top-4 inset-x-4 md:left-auto md:right-auto md:mx-auto md:max-w-5xl z-50 bg-black/70 backdrop-blur-md shadow-lg rounded-xl">
-        <div className="flex justify-between items-center px-6 py-3">
-          <AppLogo className="text-2xl !text-white text-shadow-sm" />
+      <header className="sticky top-4 inset-x-4 md:left-auto md:right-auto md:mx-auto md:max-w-5xl z-50 bg-black/50 backdrop-blur-md shadow-lg rounded-xl">
+        <div className="flex justify-start items-center px-6 py-3">
+          <AppLogo className="text-2xl !text-white text-shadow-sm md:mr-10" />
           <nav
             className="hidden md:flex space-x-1 items-center relative"
-            onMouseLeave={() => setHoveredTab(null)} // Pill disappears when mouse leaves nav
+            onMouseLeave={() => setHoveredTab(null)} 
           >
             {navItems.map((item) => (
               <Link key={item.name} href={item.href} legacyBehavior passHref>
@@ -61,7 +61,8 @@ export default function LandingPage() {
                     <motion.div
                       className="absolute inset-0 bg-white/10 rounded-full z-0"
                       layoutId="active-nav-pill"
-                      animate={{ opacity: 1 }} // Ensure it's visible
+                      initial={{ opacity: 1 }} // Ensure it's visible for sliding
+                      animate={{ opacity: 1 }} 
                       transition={{ type: "spring", bounce: 0.1, duration: 0.3 }}
                     />
                   )}
@@ -70,7 +71,7 @@ export default function LandingPage() {
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 ml-auto">
             {isLoading ? (
               <Loader2 className="h-5 w-5 animate-spin text-white" />
             ) : user ? (
