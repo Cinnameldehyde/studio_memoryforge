@@ -43,17 +43,17 @@ export default function LandingPage() {
         aria-hidden="true"
       />
 
-      <header className="fixed top-4 inset-x-0 mx-auto w-full max-w-3xl z-50 bg-black/50 backdrop-blur-md shadow-lg rounded-xl">
-        <div className="flex justify-between items-center px-6 py-3">
-          <AppLogo className="text-2xl !text-white text-shadow-sm" />
+      <header className="fixed top-4 inset-x-0 mx-auto w-full max-w-3xl z-50 bg-neutral-800/40 backdrop-blur-md shadow-lg rounded-xl">
+        <div className="flex justify-between items-center px-4 sm:px-6 py-3">
+          <AppLogo className="text-lg sm:text-xl !text-white text-shadow-sm" />
           <nav
-            className="hidden md:flex space-x-1 items-center relative md:mx-6"
+            className="hidden md:flex space-x-1 items-center relative"
             onMouseLeave={() => setHoveredTab(null)}
           >
             {navItems.map((item) => (
               <Link key={item.name} href={item.href} legacyBehavior passHref>
                 <motion.a
-                  className="relative px-3 py-2 text-sm font-medium text-white text-shadow-sm rounded-md"
+                  className="relative px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium text-white text-shadow-sm rounded-md"
                   onHoverStart={() => setHoveredTab(item.name)}
                   onClick={(e) => {
                      setHoveredTab(item.name);
@@ -63,7 +63,7 @@ export default function LandingPage() {
                        element.scrollIntoView({ behavior: 'smooth' });
                      }
                   }}
-                  href={item.href} // Still useful for context/SEO/fallback
+                  href={item.href} 
                 >
                   {hoveredTab === item.name && (
                     <motion.div
@@ -77,7 +77,7 @@ export default function LandingPage() {
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center">
             {isLoading ? (
               <Loader2 className="h-5 w-5 animate-spin text-white" />
             ) : user ? (
