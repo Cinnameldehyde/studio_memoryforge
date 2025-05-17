@@ -32,9 +32,9 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden text-foreground">
       {/* Fixed background element */}
-      <div 
-        className="fixed inset-0 z-[-1] bg-gradient-to-b from-background via-slate-900/90 to-slate-900" 
-        aria-hidden="true" 
+      <div
+        className="fixed inset-0 z-[-1] bg-landing-gradient"
+        aria-hidden="true"
       />
 
       <header className="sticky top-0 z-50 py-4 px-4 sm:px-8 bg-background/80 backdrop-blur-md shadow-sm">
@@ -78,4 +78,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
