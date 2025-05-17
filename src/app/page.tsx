@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
 import { Loader2 } from 'lucide-react';
-import Image from 'next/image';
+// import Image from 'next/image'; // Not currently used on this page after removing floating elements
 import { cn } from '@/lib/utils';
 
 export default function LandingPage() {
@@ -21,7 +21,6 @@ export default function LandingPage() {
     setIsClient(true);
   }, []);
 
-
   if (isLoading && !isClient) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
@@ -31,7 +30,13 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-slate-900/90 to-slate-900 text-foreground flex flex-col overflow-x-hidden">
+    <div className="min-h-screen flex flex-col overflow-x-hidden text-foreground">
+      {/* Fixed background element */}
+      <div 
+        className="fixed inset-0 z-[-1] bg-gradient-to-b from-background via-slate-900/90 to-slate-900" 
+        aria-hidden="true" 
+      />
+
       <header className="sticky top-0 z-50 py-4 px-4 sm:px-8 bg-background/80 backdrop-blur-md shadow-sm">
         <div className="container mx-auto flex justify-between items-center">
           <AppLogo className="text-2xl" />
@@ -56,19 +61,14 @@ export default function LandingPage() {
         </div>
       </header>
 
-      <main className="flex-grow">
-        {/* Main content sections, z-index needs to be lower if floating elements are to overlap */}
-        {/* Removed perspective div and FloatingElement components */}
-        <div className="relative" style={{ zIndex: 1 }}>
-          <HeroSection />
-        </div>
-        <div className="relative" style={{ zIndex: 1 }}>
-          <FeaturesSection />
-          <CallToActionSection />
-        </div>
+      {/* Content wrapper that will scroll */}
+      <main className="flex-grow relative z-0"> {/* Ensure main content is above the fixed background */}
+        <HeroSection />
+        <FeaturesSection />
+        <CallToActionSection />
       </main>
 
-      <footer className="py-12 bg-slate-900 text-center text-muted-foreground">
+      <footer className="py-12 bg-slate-900 text-center text-muted-foreground relative z-0"> {/* Ensure footer is also above fixed background */}
         <div className="container mx-auto">
           <AppLogo className="text-xl justify-center mb-4" />
           <p>&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
