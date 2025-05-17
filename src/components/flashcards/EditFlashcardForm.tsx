@@ -95,7 +95,7 @@ export function EditFlashcardForm({ card, children, onOpenChange, open: controll
               <DialogClose asChild>
                 <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
               </DialogClose>
-              <Button type="submit" className="bg-primary hover:bg-primary/90">Save Changes</Button>
+              <Button type="submit" className="bg-primary">Save Changes</Button>
             </DialogFooter>
           </form>
         </Form>

@@ -9,7 +9,7 @@ interface CallToActionSectionProps {
 
 export function CallToActionSection({ id }: CallToActionSectionProps) {
   return (
-    <section id={id} className="relative py-16 md:py-20 overflow-hidden bg-transparent">
+    <section id={id} className="relative py-10 md:py-12 overflow-hidden bg-transparent">
       <div className="container mx-auto px-4 text-center z-10 relative">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
@@ -35,7 +35,7 @@ export function CallToActionSection({ id }: CallToActionSectionProps) {
           transition={{ duration: 0.5, delay: 0.4 }}
           viewport={{ once: true, amount: 0.5 }}
         >
-          <Button asChild size="lg" className="px-12 py-7 text-xl bg-accent hover:bg-accent/90 text-accent-foreground rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+          <Button asChild size="lg" className="px-12 py-7 text-xl bg-primary text-primary-foreground rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
             <Link href="/signup">Get Started for Free</Link>
           </Button>
         </motion.div>

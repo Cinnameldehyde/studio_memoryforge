@@ -86,7 +86,7 @@ export function AddFlashcardForm({ triggerButton }: AddFlashcardFormProps) {
               <DialogClose asChild>
                  <Button type="button" variant="outline">Cancel</Button>
               </DialogClose>
-              <Button type="submit" className="bg-primary hover:bg-primary/90">Add Flashcard</Button>
+              <Button type="submit" className="bg-primary">Add Flashcard</Button>
             </DialogFooter>
           </form>
         </Form>
