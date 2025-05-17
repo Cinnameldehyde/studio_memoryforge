@@ -18,7 +18,10 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <div className="fixed inset-0 z-[-1] bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 animate-gradient-x" />
+      <div 
+        className="fixed inset-0 z-[-1] bg-landing-gradient animate-gradient-x" 
+        aria-hidden="true" 
+      />
       <div className="flex min-h-screen flex-col items-center justify-center p-4 bg-transparent">
         <div className="mb-6">
           <AppLogo className="text-3xl !text-white text-shadow" />
