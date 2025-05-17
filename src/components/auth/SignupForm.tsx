@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useAuth } from '@/hooks/use-auth';
@@ -13,7 +14,6 @@ import { Input } from '@/components/ui/input';
 const signupSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Invalid email address." }),
-  // Password field is not strictly necessary for local-only mock but good for form structure
   password: z.string().min(1, { message: "Password is required." }), 
 });
 
@@ -26,17 +26,16 @@ export function SignupForm() {
     defaultValues: {
       name: "",
       email: "",
-      password: "", // Mock password
+      password: "", 
     },
   });
 
   const onSubmit = async (data: SignupFormValues) => {
-    // For local auth, password isn't stored/validated, just name and email.
     await signup(data.email, data.name);
   };
 
   return (
-    <Card className="w-full shadow-xl">
+    <Card className="w-full shadow-xl bg-card/80 backdrop-blur-md border-border/50">
       <CardHeader>
         <CardTitle className="text-2xl">Sign Up</CardTitle>
         <CardDescription>Create your MemoryForge account to start learning.</CardDescription>
@@ -83,7 +82,7 @@ export function SignupForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={isLoading}>
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Creating account...' : 'Create Account'}
             </Button>
           </CardContent>

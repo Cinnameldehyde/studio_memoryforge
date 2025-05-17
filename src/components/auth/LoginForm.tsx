@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useAuth } from '@/hooks/use-auth';
@@ -13,7 +14,6 @@ import { ChromeIcon } from 'lucide-react';
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
-  // Password field is not strictly necessary for local-only mock but good for form structure
   password: z.string().min(1, { message: "Password is required." }), 
 });
 
@@ -25,26 +25,20 @@ export function LoginForm() {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
-      password: "", // Mock password
+      password: "", 
     },
   });
 
   const onSubmit = async (data: LoginFormValues) => {
-    // For local auth, password isn't validated, just email.
-    // Name isn't needed here as we expect user to exist.
     await login(data.email);
   };
 
   const handleGoogleSignIn = async () => {
-    // Mock Google Sign-In. In a real app, this would trigger OAuth flow.
-    // For this project, we'll simulate a successful Google login with a predefined user.
-    // For simplicity, we'll use the login function and pass a name to indicate it's a "new" user if not found.
-    // This mock needs an email and a name.
     await login("user@example.com", "Demo User"); 
   };
 
   return (
-    <Card className="w-full shadow-xl">
+    <Card className="w-full shadow-xl bg-card/80 backdrop-blur-md border-border/50">
       <CardHeader>
         <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>Enter your credentials to access your MemoryForge account.</CardDescription>
@@ -78,7 +72,7 @@ export function LoginForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={isLoading}>
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
             <div className="relative my-4">

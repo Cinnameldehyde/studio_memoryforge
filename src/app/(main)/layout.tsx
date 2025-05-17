@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { ReactNode } from 'react';
@@ -22,19 +23,19 @@ import { Button } from '@/components/ui/button';
 import { Loader2, PanelLeft } from 'lucide-react';
 
 function MainContent({ children }: { children: ReactNode }) {
-  const { isMobile } = useSidebar(); // Get isMobile from useSidebar
+  const { isMobile } = useSidebar();
   return (
     <div className="flex flex-1 flex-col">
-      <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur md:justify-end">
-        {isMobile && ( // Only show SidebarTrigger on mobile
+      <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-border/50 bg-background/80 px-4 backdrop-blur-md md:justify-end">
+        {isMobile && (
           <SidebarTrigger asChild>
-             <Button variant="ghost" size="icon" className="md:hidden">
+             <Button variant="ghost" size="icon" className="md:hidden text-foreground hover:bg-muted">
               <PanelLeft />
               <span className="sr-only">Toggle Menu</span>
             </Button>
           </SidebarTrigger>
         )}
-         {!isMobile && <div className="md:hidden" />} {/* Placeholder to balance flex on mobile */}
+         {!isMobile && <div className="md:hidden" />} 
         <div className="flex items-center gap-4">
           <UserNav />
         </div>
@@ -59,7 +60,7 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
 
   if (isLoading || !user) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-transparent"> {/* Changed bg for loading */}
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
@@ -67,13 +68,13 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
 
   return (
     <SidebarProvider defaultOpen={true}>
-      <Sidebar>
-        <SidebarHeader className="border-b">
-          <div className="flex items-center justify-between p-2">
-             <AppLogo />
-             <div className="md:hidden"> {/* Hidden on md and up */}
+      <Sidebar collapsible="icon" variant="sidebar" side="left" className="border-r border-border/50 bg-sidebar/80 backdrop-blur-sm"> {/* Added backdrop blur */}
+        <SidebarHeader className="border-b border-border/50">
+          <div className="flex items-center justify-between p-3">
+             <AppLogo className="text-primary" />
+             <div className="md:hidden"> 
                 <SidebarTrigger asChild>
-                  <Button variant="ghost" size="icon">
+                  <Button variant="ghost" size="icon" className="text-foreground hover:bg-muted">
                     <PanelLeft />
                     <span className="sr-only">Toggle Menu</span>
                   </Button>
@@ -88,7 +89,7 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
           Footer content if any
         </SidebarFooter> */}
       </Sidebar>
-      <SidebarInset>
+      <SidebarInset> {/* SidebarInset itself handles background */}
         <MainContent>{children}</MainContent>
       </SidebarInset>
     </SidebarProvider>
