@@ -88,7 +88,7 @@ export default {
             '0%, 100%': { 'background-position': '0% 50%' },
             '50%': { 'background-position': '100% 50%' },
           },
-          'pulse-slow': { /* Renamed from 'pulse' to avoid conflict */
+          'pulse-slow': {
              '0%, 100%': { opacity: '0.5' },
              '50%': { opacity: '1' },
           }
@@ -97,9 +97,27 @@ export default {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
         'gradient-x': 'gradient-x 10s ease infinite',
-        'pulse-slow': 'pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite', /* Updated to use renamed keyframe */
-  		}
+        'pulse-slow': 'pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+  		},
+      textShadow: {
+        sm: '0 1px 2px var(--tw-shadow-color, rgba(0,0,0,0.35))',
+        DEFAULT: '0 2px 4px var(--tw-shadow-color, rgba(0,0,0,0.35))',
+        md: '0 3px 6px var(--tw-shadow-color, rgba(0,0,0,0.35))',
+        lg: '0 5px 10px var(--tw-shadow-color, rgba(0,0,0,0.35))',
+      },
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'text-shadow': (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme('textShadow') }
+      )
+    },
+  ],
 } satisfies Config;

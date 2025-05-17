@@ -22,18 +22,18 @@ export function FeatureCard({ icon: Icon, title, description, delay = 0 }: Featu
     >
       <Card className={cn(
         "h-full border-border/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col",
-        "bg-gradient-to-tr from-[hsl(var(--card))]/70 via-[hsl(var(--card))]/50 to-[hsl(var(--card))]/30", // Gradient with transparency
-        "dark:from-[hsl(var(--card))]/70 dark:via-[hsl(var(--card))]/50 dark:to-[hsl(var(--card))]/30", // Ensure dark mode also gets it
-        "backdrop-blur-md" // Enhanced blur
+        "bg-gradient-to-tr from-[hsl(var(--card))]/70 via-[hsl(var(--card))]/50 to-[hsl(var(--card))]/30", 
+        "dark:from-[hsl(var(--card))]/70 dark:via-[hsl(var(--card))]/50 dark:to-[hsl(var(--card))]/30", 
+        "backdrop-blur-md"
       )}>
         <CardHeader className="items-center text-center">
           <div className="p-4 bg-primary/10 rounded-full mb-4 inline-block ring-2 ring-primary/20">
             <Icon className="w-10 h-10 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-semibold text-card-foreground">{title}</CardTitle>
+          <CardTitle className="text-2xl font-semibold text-white text-shadow">{title}</CardTitle>
         </CardHeader>
         <CardContent className="text-center flex-grow">
-          <CardDescription className="text-muted-foreground text-base">{description}</CardDescription>
+          <CardDescription className="text-white text-shadow-sm text-base">{description}</CardDescription>
         </CardContent>
       </Card>
     </motion.div>

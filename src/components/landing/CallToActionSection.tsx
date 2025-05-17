@@ -2,19 +2,17 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-// import Image from 'next/image'; // Image is no longer used
 
 export function CallToActionSection() {
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden"> {/* Removed its own background gradient */}
-      {/* The div with the semi-transparent image has been removed */}
+    <section className="relative py-20 md:py-32 overflow-hidden bg-transparent">
       <div className="container mx-auto px-4 text-center z-10 relative">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true, amount: 0.5 }}
-          className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6"
+          className="text-4xl md:text-5xl font-bold text-white text-shadow-md mb-6"
         >
           Ready to Forge Your Memory?
         </motion.h2>
@@ -23,7 +21,7 @@ export function CallToActionSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true, amount: 0.5 }}
-          className="text-lg md:text-xl text-slate-300 mb-10 max-w-xl mx-auto"
+          className="text-lg md:text-xl text-white text-shadow-sm mb-10 max-w-xl mx-auto"
         >
           Join thousands of learners who are transforming their study habits. Sign up today and start mastering new subjects with ease.
         </motion.p>

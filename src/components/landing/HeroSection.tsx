@@ -2,13 +2,11 @@
 "use client";
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-// import Image from 'next/image'; // Image no longer used here for low-opacity background
 import { motion } from 'framer-motion';
 
 export function HeroSection() {
   return (
     <section className="relative py-20 md:py-32 min-h-[80vh] flex items-center justify-center text-center overflow-hidden bg-transparent">
-      {/* The div with the opacity-10 image has been removed */}
       
       <div className="container mx-auto px-4 z-10">
         <motion.h1 
@@ -23,7 +21,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4 }}
-          className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto"
+          className="text-lg md:text-xl text-white text-shadow-md mb-10 max-w-3xl mx-auto"
         >
           Harness the power of AI-driven spaced repetition to learn faster, remember longer, and achieve your goals.
         </motion.p>
@@ -37,7 +35,6 @@ export function HeroSection() {
           </Button>
         </motion.div>
       </div>
-       {/* Decorative shapes (the blurred circles) have been removed */}
     </section>
   );
 }
