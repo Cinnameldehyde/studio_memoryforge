@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export function CallToActionSection() {
   return (
-    <section className="relative py-20 md:py-32 bg-gradient-to-t from-slate-900 to-background overflow-hidden">
+    <section className="relative py-20 md:py-32 overflow-hidden"> {/* Removed its own background gradient */}
       <div className="absolute inset-0 opacity-5">
          <Image src="https://placehold.co/1920x1080/111827/4b5563.png?text=." alt="Dark abstract texture" layout="fill" objectFit="cover" data-ai-hint="dark texture" />
       </div>

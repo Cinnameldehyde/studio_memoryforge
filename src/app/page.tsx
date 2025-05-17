@@ -37,11 +37,14 @@ const ParallaxContainer = ({ children, speed = 0.1 }: { children: React.ReactNod
 const FloatingElement = ({ className, children, initialX, initialY, animationDelay, rotationX = 0, rotationY = 0, rotationZ = 0 }: { className?: string, children: React.ReactNode, initialX?: string, initialY?: string, animationDelay?: string, rotationX?: number, rotationY?: number, rotationZ?: number }) => {
   return (
     <div
-      className={cn("absolute animate-float hover:animate-float-plus-hover transition-all duration-300", className)}
+      className={cn(
+        "absolute transition-transform duration-300 ease-out hover:scale-105 hover:rotate-[3deg]", 
+        className
+      )}
       style={{
         left: initialX,
         top: initialY,
-        animationDelay: animationDelay,
+        animationDelay: animationDelay, // Still useful if other animations are added later
         transform: `rotateX(${rotationX}deg) rotateY(${rotationY}deg) rotateZ(${rotationZ}deg)`,
       }}
     >
@@ -98,17 +101,17 @@ export default function LandingPage() {
         <div className="relative perspective" style={{ zIndex: 10 }}> 
           {isClient && ( 
             <>
-            <FloatingElement initialX="10%" initialY="20%" animationDelay="0s" rotationY={15} rotationX={-5} className="opacity-70">
-               <Image src="https://placehold.co/200x280/6d28d9/ffffff.png?text=Q:\nWhat+is+AI?" alt="Example Flashcard 1" width={150} height={210} className="rounded-lg shadow-2xl" data-ai-hint="flashcard design" />
+            <FloatingElement initialX="10%" initialY="20%" rotationY={15} rotationX={-5} className="opacity-70">
+               <Image src="https://placehold.co/200x280/6d28d9/ffffff.png?text=Q:%0AWhat+is+AI?" alt="Example Flashcard 1" width={150} height={210} className="rounded-lg shadow-2xl" data-ai-hint="flashcard design" />
             </FloatingElement>
-             <FloatingElement initialX="80%" initialY="10%" animationDelay="1s" rotationY={-20} rotationX={10} className="opacity-60">
-                <Image src="https://placehold.co/180x250/db2777/ffffff.png?text=A:\nMagic!" alt="Example Flashcard 2" width={120} height={175} className="rounded-md shadow-2xl" data-ai-hint="study interface" />
+             <FloatingElement initialX="80%" initialY="10%" rotationY={-20} rotationX={10} className="opacity-60">
+                <Image src="https://placehold.co/180x250/db2777/ffffff.png?text=A:%0AMagic!" alt="Example Flashcard 2" width={120} height={175} className="rounded-md shadow-2xl" data-ai-hint="study interface" />
             </FloatingElement>
-             <FloatingElement initialX="5%" initialY="70%" animationDelay="2s" rotationY={10} rotationX={5} className="opacity-65">
-                <Image src="https://placehold.co/220x300/16a34a/ffffff.png?text=Learn\nAnything" alt="Example Flashcard 3" width={160} height={220} className="rounded-xl shadow-2xl" data-ai-hint="learning tool" />
+             <FloatingElement initialX="5%" initialY="70%" rotationY={10} rotationX={5} className="opacity-65">
+                <Image src="https://placehold.co/220x300/16a34a/ffffff.png?text=Learn%0AAnything" alt="Example Flashcard 3" width={160} height={220} className="rounded-xl shadow-2xl" data-ai-hint="learning tool" />
             </FloatingElement>
-            <FloatingElement initialX="85%" initialY="60%" animationDelay="0.5s" rotationY={-10} rotationX={-8} className="opacity-70">
-               <Image src="https://placehold.co/200x280/f59e0b/ffffff.png?text=Memory\nBoost" alt="Example Flashcard 4" width={150} height={210} className="rounded-lg shadow-2xl" data-ai-hint="knowledge retention" />
+            <FloatingElement initialX="85%" initialY="60%" rotationY={-10} rotationX={-8} className="opacity-70">
+               <Image src="https://placehold.co/200x280/f59e0b/ffffff.png?text=Memory%0ABoost" alt="Example Flashcard 4" width={150} height={210} className="rounded-lg shadow-2xl" data-ai-hint="knowledge retention" />
             </FloatingElement>
             </>
           )}
