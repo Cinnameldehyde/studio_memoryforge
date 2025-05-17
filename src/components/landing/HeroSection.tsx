@@ -1,0 +1,48 @@
+
+"use client";
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import Image from 'next/image';
+import { motion } from 'framer-motion'; // For more advanced animations if needed
+
+export function HeroSection() {
+  return (
+    <section className="relative py-20 md:py-32 min-h-[80vh] flex items-center justify-center text-center overflow-hidden bg-transparent">
+      <div className="absolute inset-0 opacity-10">
+        {/* Subtle background pattern or image if desired */}
+         <Image src="https://placehold.co/1920x1080/000000/333333.png?text=." alt="Abstract background" layout="fill" objectFit="cover" data-ai-hint="abstract background" />
+      </div>
+      
+      <div className="container mx-auto px-4 z-10">
+        <motion.h1 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary-foreground animate-gradient-x"
+        >
+          Unlock Your Potential with MemoryForge
+        </motion.h1>
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto"
+        >
+          Harness the power of AI-driven spaced repetition to learn faster, remember longer, and achieve your goals.
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <Button asChild size="lg" className="px-10 py-6 text-lg bg-primary hover:bg-primary/80 text-primary-foreground rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+            <Link href="/signup">Start Forging - It&apos;s Free!</Link>
+          </Button>
+        </motion.div>
+      </div>
+       {/* Decorative shapes - conceptual, can be SVGs or styled divs */}
+      <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-primary/10 rounded-full filter blur-3xl opacity-50 animate-pulse-slow"></div>
+      <div className="absolute -top-20 -right-20 w-96 h-96 bg-accent/10 rounded-full filter blur-3xl opacity-50 animate-pulse-slow animation-delay-2000"></div>
+    </section>
+  );
+}

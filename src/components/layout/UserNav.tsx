@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,13 +29,18 @@ export function UserNav() {
     return names[0].charAt(0).toUpperCase() + names[names.length - 1].charAt(0).toUpperCase();
   };
 
+  const avatarText = getInitials(user.name);
+  // Use a more consistent placeholder service or one that allows color customization if needed
+  const placeholderAvatarUrl = `https://placehold.co/40x40/7c3aed/ffffff.png?text=${avatarText}`;
+
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-9 w-9 rounded-full">
           <Avatar className="h-9 w-9">
-            <AvatarImage src={user.avatarUrl || `https://placehold.co/40x40.png?text=${getInitials(user.name)}`} alt={user.name || "User"} data-ai-hint="user avatar" />
-            <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
+            <AvatarImage src={user.avatarUrl || placeholderAvatarUrl} alt={user.name || "User"} data-ai-hint="user avatar" />
+            <AvatarFallback>{avatarText}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -57,9 +63,9 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator /> */}
-        <DropdownMenuItem onClick={logout} className="cursor-pointer">
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span>
+        <DropdownMenuItem onClick={logout} className="cursor-pointer hover:bg-destructive/10">
+          <LogOut className="mr-2 h-4 w-4 text-destructive" />
+          <span className="text-destructive">Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
