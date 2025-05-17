@@ -12,7 +12,7 @@ export function HeroSection({ id }: HeroSectionProps) {
   return (
     <section 
       id={id} 
-      className="relative py-12 md:py-16 min-h-[60vh] flex items-center justify-center text-center overflow-hidden bg-transparent pt-24 md:pt-28" // Increased top padding
+      className="relative py-10 md:py-12 min-h-[60vh] flex items-center justify-center text-center overflow-hidden bg-transparent pt-24 md:pt-28" // Increased top padding further
     >
       
       <div className="container mx-auto px-4 z-10">
@@ -45,3 +45,4 @@ export function HeroSection({ id }: HeroSectionProps) {
     </section>
   );
 }
+
