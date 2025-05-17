@@ -21,7 +21,7 @@ const navItems = [
 export default function LandingPage() {
   const { user, isLoading } = useAuth();
   const [isClient, setIsClient] = useState(false);
-  const [hoveredTab, setHoveredTab] = useState<string | null>(navItems[0].name); // Default to first item
+  const [hoveredTab, setHoveredTab] = useState<string | null>(null); 
 
   useEffect(() => {
     setIsClient(true);
@@ -45,23 +45,23 @@ export default function LandingPage() {
       <header className="sticky top-4 inset-x-4 md:left-auto md:right-auto md:mx-auto md:max-w-5xl z-50 bg-black/70 backdrop-blur-md shadow-lg rounded-xl">
         <div className="flex justify-between items-center px-6 py-3">
           <AppLogo className="text-2xl !text-white text-shadow-sm" />
-          <nav className="hidden md:flex space-x-2 items-center relative">
+          <nav
+            className="hidden md:flex space-x-1 items-center relative"
+            onMouseLeave={() => setHoveredTab(null)} // Pill disappears when mouse leaves nav
+          >
             {navItems.map((item) => (
               <Link key={item.name} href={item.href} legacyBehavior passHref>
                 <motion.a
-                  className="relative px-3 py-2 text-sm font-medium text-white text-shadow-sm rounded-md transition-colors"
+                  className="relative px-3 py-2 text-sm font-medium text-white text-shadow-sm rounded-md"
                   onHoverStart={() => setHoveredTab(item.name)}
-                  onHoverEnd={() => setHoveredTab(null)} // Or set to default if you always want one active visually
-                  onClick={() => setHoveredTab(item.name)} // Keep pill on clicked item
+                  onClick={() => setHoveredTab(item.name)} 
                   href={item.href} 
                 >
                   {hoveredTab === item.name && (
                     <motion.div
-                      className="absolute inset-0 bg-white/10 rounded-full z-0" // Changed to rounded-full
+                      className="absolute inset-0 bg-white/10 rounded-full z-0"
                       layoutId="active-nav-pill"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
+                      animate={{ opacity: 1 }} // Ensure it's visible
                       transition={{ type: "spring", bounce: 0.1, duration: 0.3 }}
                     />
                   )}
@@ -105,7 +105,7 @@ export default function LandingPage() {
         before:z-[-1] before:pointer-events-none
       ">
         <div className="container mx-auto relative">
-          <AppLogo className="text-xl !text-white text-shadow justify-center mb-4" />
+          <AppLogo className="text-xl !text-white text-shadow-sm justify-center mb-4" />
           <p className="text-white text-shadow-sm">&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
           <p className="text-sm mt-2 text-white text-shadow-sm">Forge Your Knowledge, Master Your Mind.</p>
         </div>
