@@ -68,7 +68,7 @@ export default function LandingPage() {
         <CallToActionSection />
       </main>
 
-      <footer className="py-12 bg-slate-900 text-center text-muted-foreground relative z-0"> {/* Ensure footer is also above fixed background */}
+      <footer className="py-12 text-center text-muted-foreground relative z-0"> {/* Removed bg-slate-900 */}
         <div className="container mx-auto">
           <AppLogo className="text-xl justify-center mb-4" />
           <p>&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
@@ -78,3 +78,4 @@ export default function LandingPage() {
     </div>
   );
 }
+
