@@ -33,7 +33,7 @@ export default function LandingPage() {
     <div className="min-h-screen flex flex-col overflow-x-hidden text-foreground">
       {/* Fixed background element */}
       <div
-        className="fixed inset-0 z-[-1] bg-landing-gradient"
+        className="fixed inset-0 z-[-1] bg-landing-gradient animate-gradient-x"
         aria-hidden="true"
       />
 
@@ -78,3 +78,4 @@ export default function LandingPage() {
     </div>
   );
 }
+
