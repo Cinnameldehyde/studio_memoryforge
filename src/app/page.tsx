@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { FeaturesSection } from '@/components/landing/FeaturesSection';
 import { CallToActionSection } from '@/components/landing/CallToActionSection';
@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
 import { Loader2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
   { name: 'Home', href: '#hero' },
@@ -23,10 +23,27 @@ export default function LandingPage() {
   const [isClient, setIsClient] = useState(false);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
   const [hoveredBottomTab, setHoveredBottomTab] = useState<string | null>(null);
+  const [showBottomNav, setShowBottomNav] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-  }, []);
+
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setShowBottomNav(true);
+      } else {
+        setShowBottomNav(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    // Call it once to set initial state based on current scroll position
+    handleScroll(); 
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []); 
 
   if (isLoading && !isClient) {
     return (
@@ -78,7 +95,7 @@ export default function LandingPage() {
               </Button>
             ) : (
               <>
-                <Button asChild variant="ghost" size="sm" className="hover:text-primary text-white text-shadow-sm hover:bg-white/10">
+                <Button asChild variant="ghost" size="sm" className="hover:text-primary !text-white text-shadow-sm hover:bg-white/10">
                   <Link href="/login">Login</Link>
                 </Button>
                 <Button asChild variant="default" size="sm" className="bg-primary hover:bg-primary-gradient text-primary-foreground">
@@ -97,29 +114,40 @@ export default function LandingPage() {
       </main>
 
       {/* Bottom Navigation for mobile */}
-      <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md shadow-lg rounded-xl px-4 py-2 flex md:hidden space-x-1 items-center z-50">
-        {navItems.map((item) => (
-          <Link key={`bottom-${item.name}`} href={item.href} legacyBehavior passHref>
-            <motion.a
-              className="relative px-3 py-2 text-xs font-medium text-white text-shadow-sm rounded-md hover:bg-white/10 transition-colors"
-              onHoverStart={() => setHoveredBottomTab(item.name)}
-              onHoverEnd={() => setHoveredBottomTab(null)}
-            >
-              {item.name}
-              {hoveredBottomTab === item.name && (
-                <motion.div
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                  layoutId="underline-bottom"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                />
-              )}
-            </motion.a>
-          </Link>
-        ))}
-      </nav>
+      <AnimatePresence>
+        {showBottomNav && (
+          <motion.nav
+            key="bottom-nav" // Important for AnimatePresence
+            initial={{ y: "120%", opacity: 0 }} // Start off-screen (100% + bottom-4 offset)
+            animate={{ y: "0%", opacity: 1 }} // Animate to its styled position
+            exit={{ y: "120%", opacity: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 25 }}
+            className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md shadow-lg rounded-xl px-4 py-2 flex md:hidden space-x-1 items-center z-50"
+          >
+            {navItems.map((item) => (
+              <Link key={`bottom-${item.name}`} href={item.href} legacyBehavior passHref>
+                <motion.a
+                  className="relative px-3 py-2 text-xs font-medium text-white text-shadow-sm rounded-md hover:bg-white/10 transition-colors"
+                  onHoverStart={() => setHoveredBottomTab(item.name)}
+                  onHoverEnd={() => setHoveredBottomTab(null)}
+                >
+                  {item.name}
+                  {hoveredBottomTab === item.name && (
+                    <motion.div
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
+                      layoutId="underline-bottom" 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </motion.a>
+              </Link>
+            ))}
+          </motion.nav>
+        )}
+      </AnimatePresence>
 
       <footer className="
         py-12 text-center relative z-0
