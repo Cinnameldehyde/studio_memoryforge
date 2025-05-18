@@ -175,11 +175,11 @@ export default function LandingPage() {
           </Link>
           <p className="text-sm text-white/90 text-shadow-sm">&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
           <p className="text-xs mt-2 text-white/80 text-shadow-sm">Forge Your Knowledge, Master Your Mind.</p>
-          <div className="mt-4 flex justify-center items-center space-x-3 sm:space-x-4 text-xs text-white/80 text-shadow-sm">
+          <div className="mt-4 flex flex-wrap justify-center items-center gap-x-1.5 sm:gap-x-3 text-xs text-white/80 text-shadow-sm">
             <Link href="#" className="hover:underline">Privacy Policy</Link>
-            <span className="opacity-50">|</span>
+            <span className="opacity-50 mx-0.5 sm:mx-0">|</span>
             <Link href="#" className="hover:underline">Terms & Conditions</Link>
-            <span className="opacity-50">|</span>
+            <span className="opacity-50 mx-0.5 sm:mx-0">|</span>
             <Link href="#" className="hover:underline">Contact Us</Link>
           </div>
         </div>

@@ -50,14 +50,17 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       </div>
 
       <footer className="py-6 text-center text-xs text-white/80 text-shadow-sm bg-transparent">
-        <div className="container mx-auto flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-3">
+        <div className="container mx-auto flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:gap-x-3">
           <span>&copy; {new Date().getFullYear()} {APP_NAME}. All rights reserved.</span>
-          <span className="hidden sm:inline opacity-50">|</span>
-          <Link href="#" className="hover:underline text-white/90 hover:text-white">Privacy Policy</Link>
-          <span className="hidden sm:inline opacity-50">|</span>
-          <Link href="#" className="hover:underline text-white/90 hover:text-white">Terms & Conditions</Link>
-          <span className="hidden sm:inline opacity-50">|</span>
-          <Link href="#" className="hover:underline text-white/90 hover:text-white">Contact Us</Link>
+          
+          <div className="flex flex-wrap justify-center items-center gap-x-1.5 sm:gap-x-3">
+            <span className="hidden sm:inline opacity-50">|</span>
+            <Link href="#" className="hover:underline text-white/90 hover:text-white">Privacy Policy</Link>
+            <span className="opacity-50 mx-0.5 sm:mx-0">|</span>
+            <Link href="#" className="hover:underline text-white/90 hover:text-white">Terms & Conditions</Link>
+            <span className="opacity-50 mx-0.5 sm:mx-0">|</span>
+            <Link href="#" className="hover:underline text-white/90 hover:text-white">Contact Us</Link>
+          </div>
         </div>
       </footer>
     </div>

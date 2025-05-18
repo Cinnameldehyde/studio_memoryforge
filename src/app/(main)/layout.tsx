@@ -16,15 +16,12 @@ import {
   SidebarContent,
   SidebarInset,
   SidebarTrigger,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from '@/components/ui/button';
 import { Loader2, PanelLeft } from 'lucide-react';
 
 // Layer 2: Screen Header
 function FullScreenHeader() {
-  const { user } = useAuth(); 
-
   return (
     <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between border-b bg-background/95 px-4 shadow-sm sm:px-6">
       <div className="flex items-center">
@@ -41,7 +38,7 @@ function FullScreenHeader() {
         </Link>
       </div>
       <div className="flex items-center">
-        {user && <UserNav />}
+        {<UserNav />}
       </div>
     </header>
   );
@@ -72,14 +69,16 @@ function AppContentArea({ children }: { children: ReactNode }) {
           {children}
         </main>
         <footer className="border-t border-border/50 py-3 text-center text-xs bg-transparent text-white/80 text-shadow-sm">
-          <div className="container mx-auto flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-3">
+          <div className="container mx-auto flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:gap-x-3">
             <span>&copy; {new Date().getFullYear()} {APP_NAME}. All rights reserved.</span>
-            <span className="hidden sm:inline opacity-50">|</span>
-            <Link href="#" className="hover:underline text-white/90 hover:text-white">Privacy Policy</Link>
-            <span className="hidden sm:inline opacity-50">|</span>
-            <Link href="#" className="hover:underline text-white/90 hover:text-white">Terms & Conditions</Link>
-            <span className="hidden sm:inline opacity-50">|</span>
-            <Link href="#" className="hover:underline text-white/90 hover:text-white">Contact Us</Link>
+            <div className="flex flex-wrap justify-center items-center gap-x-1.5 sm:gap-x-3">
+              <span className="hidden sm:inline opacity-50">|</span>
+              <Link href="#" className="hover:underline text-white/90 hover:text-white">Privacy Policy</Link>
+              <span className="opacity-50 mx-0.5 sm:mx-0">|</span>
+              <Link href="#" className="hover:underline text-white/90 hover:text-white">Terms & Conditions</Link>
+              <span className="opacity-50 mx-0.5 sm:mx-0">|</span>
+              <Link href="#" className="hover:underline text-white/90 hover:text-white">Contact Us</Link>
+            </div>
           </div>
         </footer>
       </div>
