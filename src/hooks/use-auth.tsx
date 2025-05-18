@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useLocalStorage<User | null>(CURRENT_USER_STORAGE_KEY, null);
   const [isLoading, setIsLoading] = React.useState(true);
   const router = useRouter();
-  const { toast } = useToast();
+  const { toast, dismiss } = useToast();
 
   useEffect(() => {
     // This effect handles the initial loading state based on the persisted currentUser from localStorage.
@@ -85,11 +85,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signInWithGoogle = async (): Promise<void> => {
     setIsLoading(true);
     const provider = new GoogleAuthProvider();
+    
+    let unstableToastId: string | undefined = undefined;
+    const unstableConnectionTimer = setTimeout(() => {
+      const { id } = toast({
+        title: "Network Status",
+        description: "Connection seems a bit slow...",
+        variant: "default",
+        duration: 4000, // Auto-dismiss after 4 seconds
+      });
+      unstableToastId = id;
+    }, 50); // 50ms threshold, very aggressive
+
     try {
       const result = await signInWithPopup(auth, provider);
+      clearTimeout(unstableConnectionTimer); // Operation completed, clear timer
+      if (unstableToastId) {
+        dismiss(unstableToastId); // Dismiss the "slow" toast if it was shown
+      }
+
       const firebaseUser: FirebaseUser = result.user;
       
-      // Map Firebase user to our app's User type and store in localStorage
       const appUser: User = {
         id: firebaseUser.uid,
         email: firebaseUser.email || undefined,
@@ -98,18 +114,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       };
       setCurrentUser(appUser);
       
-      // Optional: Add/update this user in the mock `users` list if needed elsewhere,
-      // but for auth, `currentUser` is primary.
-      // const userExistsInMockList = users.some(u => u.id === appUser.id || u.email === appUser.email);
-      // if (!userExistsInMockList) {
-      //   setUsers(prevUsers => [...prevUsers, appUser]);
-      // } else {
-      //   setUsers(prevUsers => prevUsers.map(u => (u.id === appUser.id || u.email === appUser.email) ? appUser : u));
-      // }
-
       toast({ title: "Google Sign-In Successful", description: `Welcome, ${appUser.name}!` });
       router.push('/dashboard');
     } catch (error: any) {
+      clearTimeout(unstableConnectionTimer); // Operation failed, clear timer
+      if (unstableToastId) {
+        dismiss(unstableToastId); // Dismiss the "slow" toast if it was shown
+      }
       console.error("Google Sign-In Error:", error);
       toast({ title: "Google Sign-In Failed", description: error.message || "An unexpected error occurred.", variant: "destructive" });
     } finally {
