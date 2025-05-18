@@ -3,34 +3,34 @@
 
 import type { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import { AppLogo } from '@/components/shared/AppLogo';
 import { UserNav } from '@/components/layout/UserNav';
 import { SidebarNav } from '@/components/layout/SidebarNav';
 import { mainNavItems, APP_NAME } from '@/config/site';
 import Link from 'next/link';
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarContent,
-  SidebarInset,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
 import { Button } from '@/components/ui/button';
 import { Loader2, PanelLeft } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+
 
 // Layer 2: Screen Header
-function FullScreenHeader() {
+function FullScreenHeader({ onToggleSheet }: { onToggleSheet: () => void }) {
   return (
     <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between border-b bg-background px-4 shadow-sm sm:px-6">
       <div className="flex items-center">
-        <SidebarTrigger asChild>
-          <Button variant="ghost" size="icon" className="text-foreground hover:bg-primary/20 hover:text-primary">
+        <SheetTrigger asChild>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="text-foreground hover:bg-primary/20 hover:text-primary"
+            onClick={onToggleSheet}
+            aria-label="Toggle navigation menu"
+          >
             <PanelLeft />
-            <span className="sr-only">Toggle Menu</span>
           </Button>
-        </SidebarTrigger>
+        </SheetTrigger>
       </div>
       <div className="flex-1 flex justify-center">
         <Link href="/dashboard" passHref aria-label={`${APP_NAME} Dashboard`}>
@@ -44,27 +44,10 @@ function FullScreenHeader() {
   );
 }
 
-// Layer 3: Sidebar Component
-function AppSidebar() {
-  return (
-    <Sidebar 
-      collapsible="icon" 
-      variant="sidebar" 
-      side="left" 
-      className="z-50 bg-sidebar border-r" // Restored border-r for visual separation
-    >
-      <SidebarContent className="mt-16 pt-2"> 
-        <SidebarNav items={mainNavItems} />
-      </SidebarContent>
-    </Sidebar>
-  );
-}
-
 // Layer 1: Main Application Content Area
 function AppContentArea({ children }: { children: ReactNode }) {
   return (
-    <SidebarInset className="bg-landing-gradient animate-gradient-x">
-      <div className="flex min-h-svh flex-1 flex-col"> 
+      <div className="flex min-h-svh flex-1 flex-col bg-landing-gradient animate-gradient-x"> 
         <main className="flex-1 overflow-y-auto p-4 pt-24 md:p-6 md:pt-24 lg:p-8 lg:pt-28"> 
           {children}
         </main>
@@ -82,13 +65,13 @@ function AppContentArea({ children }: { children: ReactNode }) {
           </div>
         </footer>
       </div>
-    </SidebarInset>
   );
 }
 
 export default function MainAppLayout({ children }: { children: ReactNode }) {
   const { user, isLoading } = useAuth();
   const router = useRouter();
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -98,7 +81,7 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
 
   // Programmatic prefetching of main navigation routes
   useEffect(() => {
-    if (user && !isLoading) { // Only prefetch if the user is logged in and auth is not loading
+    if (user && !isLoading) { 
       mainNavItems.forEach(item => {
         if (item.href && typeof item.href === 'string') {
           router.prefetch(item.href);
@@ -117,11 +100,19 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
   
   return (
     <div className="relative min-h-svh w-full">
-      <SidebarProvider defaultOpen={true}>
-        <FullScreenHeader />
-        <AppSidebar />
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+        <FullScreenHeader onToggleSheet={() => setIsSheetOpen(prev => !prev)} />
+        <SheetContent side="left" className="w-[280px] sm:w-[320px] p-0 pt-16 bg-sidebar border-r">
+           {/* Adding a visually hidden title for accessibility as required by Radix Dialog/Sheet */}
+          <SheetHeader className="sr-only">
+            <SheetTitle>Main Navigation</SheetTitle>
+          </SheetHeader>
+          <div className="mt-2"> {/* Added mt-2 to SidebarNav to give space from top after header */}
+            <SidebarNav items={mainNavItems} />
+          </div>
+        </SheetContent>
         <AppContentArea>{children}</AppContentArea>
-      </SidebarProvider>
+      </Sheet>
     </div>
   );
 }
