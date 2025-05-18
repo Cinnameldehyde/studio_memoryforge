@@ -105,7 +105,9 @@ export default function LandingPage() {
 
       <header className="fixed top-4 left-4 right-4 md:inset-x-0 md:mx-auto md:w-full md:max-w-screen-md z-50 bg-neutral-800/40 backdrop-blur-md shadow-lg rounded-xl">
         <div className="flex items-center justify-center md:justify-between px-4 sm:px-6 py-3">
-          <AppLogo className="text-lg sm:text-xl !text-white text-shadow-sm" />
+          <Link href="/" aria-label="MemoryForge Home">
+            <AppLogo className="text-lg sm:text-xl !text-white text-shadow-sm" />
+          </Link>
           
           <nav
             className="hidden md:flex space-x-1 items-center relative md:mx-6" 
@@ -125,7 +127,7 @@ export default function LandingPage() {
                        element.scrollIntoView({ behavior: 'smooth' });
                      }
                   }}
-                  href={item.href}
+                  href={item.href} // href is still needed for legacyBehavior
                 >
                   {(displayTab === item.name) && (
                     <motion.div
@@ -170,7 +172,9 @@ export default function LandingPage() {
         before:z-[-1] before:pointer-events-none
       ">
         <div className="container mx-auto relative">
-          <AppLogo className="text-xl !text-white text-shadow-sm justify-center mb-4" />
+          <Link href="/" aria-label="MemoryForge Home" className="flex justify-center mb-4">
+            <AppLogo className="text-xl !text-white text-shadow-sm" />
+          </Link>
           <p className="text-sm text-white/90 text-shadow-sm">&copy; {new Date().getFullYear()} MemoryForge. All rights reserved.</p>
           <p className="text-xs mt-2 text-white/80 text-shadow-sm">Forge Your Knowledge, Master Your Mind.</p>
           <div className="mt-4 flex justify-center items-center space-x-3 sm:space-x-4 text-xs text-white/80 text-shadow-sm">
@@ -185,4 +189,3 @@ export default function LandingPage() {
     </div>
   );
 }
-

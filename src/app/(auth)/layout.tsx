@@ -9,25 +9,29 @@ import { SignupForm } from '@/components/auth/SignupForm';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { APP_NAME } from '@/config/site';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const isLoginView = pathname === '/login';
-
-  // min-h-[600px] or a specific height might be needed if forms have different heights
-  // to prevent layout shifts during the flip. For now, we assume forms are similarly sized.
-  // The Card component inside LoginForm/SignupForm provides the actual visual card.
-  const cardWrapperMinHeight = "min-h-[600px]"; // Adjusted based on typical form height, increased for Google button text
+  const cardWrapperMinHeight = "min-h-[600px]";
 
   return (
-    <>
-      <div 
-        className="fixed inset-0 z-[-1] bg-landing-gradient animate-gradient-x" 
-        aria-hidden="true" 
-      />
-      <div className="flex min-h-screen flex-col items-center justify-center p-4 bg-transparent">
+    <div className="flex min-h-screen flex-col bg-landing-gradient animate-gradient-x">
+      <div className="fixed top-4 left-4 z-20">
+        <Link href="/" passHref>
+          <Button variant="ghost" className="text-white hover:bg-white/10 hover:text-white text-shadow-sm">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Home
+          </Button>
+        </Link>
+      </div>
+
+      <div className="flex flex-1 flex-col items-center justify-center p-4 pt-16 sm:pt-20"> {/* Added padding-top */}
         <div className="mb-6">
-          <AppLogo className="text-3xl !text-white text-shadow" />
+           <Link href="/" aria-label="MemoryForge Home">
+            <AppLogo className="text-3xl !text-white text-shadow" />
+          </Link>
         </div>
         <div className={`w-full max-w-md perspective ${cardWrapperMinHeight}`}>
           <div
@@ -35,27 +39,27 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
               isLoginView ? '' : 'rotate-y-180'
             }`}
           >
-            {/* Front Face: Login Form */}
             <div className="absolute inset-0 backface-hidden">
               <LoginForm />
             </div>
-            {/* Back Face: Signup Form */}
             <div className="absolute inset-0 backface-hidden transform rotate-y-180">
               <SignupForm />
             </div>
           </div>
         </div>
-        {/* Render children if necessary for other auth routes, or remove if only login/signup use this specific flip */}
-        {/* For this flip animation, children from page.tsx are not directly used inside the card */}
-        <div className="mt-8">
-          <Link href="/" passHref>
-            <Button variant="ghost" className="text-white hover:bg-white/10 hover:text-white">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
-            </Button>
-          </Link>
-        </div>
       </div>
-    </>
+
+      <footer className="py-6 text-center text-xs text-white/80 text-shadow-sm bg-transparent">
+        <div className="container mx-auto flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-3">
+          <span>&copy; {new Date().getFullYear()} {APP_NAME}. All rights reserved.</span>
+          <span className="hidden sm:inline opacity-50">|</span>
+          <Link href="#" className="hover:underline text-white/90 hover:text-white">Privacy Policy</Link>
+          <span className="hidden sm:inline opacity-50">|</span>
+          <Link href="#" className="hover:underline text-white/90 hover:text-white">Terms & Conditions</Link>
+          <span className="hidden sm:inline opacity-50">|</span>
+          <Link href="#" className="hover:underline text-white/90 hover:text-white">Contact Us</Link>
+        </div>
+      </footer>
+    </div>
   );
 }
