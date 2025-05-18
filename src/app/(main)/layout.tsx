@@ -21,43 +21,68 @@ import {
 import { Button } from '@/components/ui/button';
 import { Loader2, PanelLeft } from 'lucide-react';
 
-function MainContent({ children }: { children: ReactNode }) {
-  const { isMobile, toggleSidebar, open } = useSidebar();
-
-  const handleToggle = () => {
-    toggleSidebar();
-  };
+// Layer 2: Screen Header
+function FullScreenHeader() {
+  const { user } = useAuth(); // User needed for conditional rendering of UserNav or other elements
+  // const { toggleSidebar } = useSidebar(); // This hook can only be used inside SidebarProvider context
 
   return (
-    <div className="flex min-h-svh flex-1 flex-col"> {/* Ensures footer can be pushed down */}
-      <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background px-4">
-        {/* Sidebar Trigger for both mobile and desktop */}
+    <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between border-b border-border/20 bg-background/50 px-4 shadow-sm backdrop-blur-md sm:px-6">
+      <div className="flex items-center">
         <SidebarTrigger asChild>
-            <Button variant="ghost" size="icon" className="text-foreground hover:bg-muted" onClick={handleToggle} title={open && !isMobile ? "Collapse sidebar" : "Expand sidebar"}>
+          <Button variant="ghost" size="icon" className="text-foreground hover:bg-muted">
             <PanelLeft />
             <span className="sr-only">Toggle Menu</span>
-            </Button>
+          </Button>
         </SidebarTrigger>
-        
-        <div className="flex items-center gap-4 ml-auto"> {/* Pushes UserNav to the right */}
-          <UserNav />
-        </div>
-      </header>
-      <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
-        {children}
-      </main>
-      <footer className="border-t border-border/50 py-3 text-center text-xs bg-background/80 text-white/80 text-shadow-sm">
-        <div className="container mx-auto flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-3">
-          <span>&copy; {new Date().getFullYear()} {APP_NAME}. All rights reserved.</span>
-          <span className="hidden sm:inline opacity-50">|</span>
-          <Link href="#" className="hover:underline text-white/90 hover:text-white">Privacy Policy</Link>
-          <span className="hidden sm:inline opacity-50">|</span>
-          <Link href="#" className="hover:underline text-white/90 hover:text-white">Terms & Conditions</Link>
-          <span className="hidden sm:inline opacity-50">|</span>
-          <Link href="#" className="hover:underline text-white/90 hover:text-white">Contact Us</Link>
-        </div>
-      </footer>
-    </div>
+      </div>
+      <div className="flex-1 flex justify-center">
+        <AppLogo className="text-xl" />
+      </div>
+      <div className="flex items-center">
+        {user && <UserNav />}
+      </div>
+    </header>
+  );
+}
+
+// Layer 3: Sidebar Component
+function AppSidebar() {
+  return (
+    <Sidebar 
+      collapsible="icon" 
+      variant="sidebar" 
+      side="left" 
+      className="z-50 border-r bg-sidebar/80 backdrop-blur-md" // Ensure higher z-index than header
+    >
+      <SidebarContent className="mt-16 pt-2"> {/* Add margin-top to account for FullScreenHeader height */}
+        <SidebarNav items={mainNavItems} />
+      </SidebarContent>
+    </Sidebar>
+  );
+}
+
+// Layer 1: Main Application Content Area
+function AppContentArea({ children }: { children: ReactNode }) {
+  return (
+    <SidebarInset className="bg-landing-gradient animate-gradient-x">
+      <div className="flex min-h-svh flex-1 flex-col"> {/* Ensures footer can be pushed down */}
+        <main className="flex-1 overflow-y-auto p-4 pt-24 md:p-6 md:pt-24 lg:p-8 lg:pt-28"> {/* Increased padding-top */}
+          {children}
+        </main>
+        <footer className="border-t border-border/50 py-3 text-center text-xs bg-transparent text-white/80 text-shadow-sm">
+          <div className="container mx-auto flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-3">
+            <span>&copy; {new Date().getFullYear()} {APP_NAME}. All rights reserved.</span>
+            <span className="hidden sm:inline opacity-50">|</span>
+            <Link href="#" className="hover:underline text-white/90 hover:text-white">Privacy Policy</Link>
+            <span className="hidden sm:inline opacity-50">|</span>
+            <Link href="#" className="hover:underline text-white/90 hover:text-white">Terms & Conditions</Link>
+            <span className="hidden sm:inline opacity-50">|</span>
+            <Link href="#" className="hover:underline text-white/90 hover:text-white">Contact Us</Link>
+          </div>
+        </footer>
+      </div>
+    </SidebarInset>
   );
 }
 
@@ -81,25 +106,11 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
   
   return (
     <div className="relative min-h-svh w-full">
-      <div
-        className="fixed inset-0 z-[-1] bg-landing-gradient animate-gradient-x"
-        aria-hidden="true"
-      />
+      {/* The fixed background gradient is now handled by SidebarInset/AppContentArea */}
       <SidebarProvider defaultOpen={true}>
-        <Sidebar 
-          collapsible="icon" 
-          variant="sidebar" 
-          side="left" 
-          className="bg-sidebar border-r"
-        >
-          {/* SidebarHeader removed */}
-          <SidebarContent>
-            <SidebarNav items={mainNavItems} />
-          </SidebarContent>
-        </Sidebar>
-        <SidebarInset>
-          <MainContent>{children}</MainContent>
-        </SidebarInset>
+        <FullScreenHeader />
+        <AppSidebar />
+        <AppContentArea>{children}</AppContentArea>
       </SidebarProvider>
     </div>
   );
