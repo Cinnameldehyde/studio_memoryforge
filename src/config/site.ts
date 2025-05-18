@@ -1,5 +1,6 @@
+
 import type { LucideIcon } from 'lucide-react';
-import { LayoutDashboard, Layers, Edit3, Settings } from 'lucide-react';
+import { LayoutDashboard, Layers, Edit3 } from 'lucide-react';
 
 export const APP_NAME = "MemoryForge";
 

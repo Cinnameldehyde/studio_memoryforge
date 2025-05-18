@@ -1,3 +1,4 @@
+
 "use client";
 
 import { PageHeader } from '@/components/shared/PageHeader';
@@ -6,7 +7,7 @@ import { useFlashcards } from '@/hooks/use-flashcards';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CalendarDays, CheckCircle, Layers, Loader2, Target } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
-import { format, subDays, parseISO } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import type { DailyReviewSummary } from '@/lib/types';
 
 function DashboardStatsDisplay() {

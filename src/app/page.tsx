@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
 import { Loader2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const navItems = [
   { name: 'Home', href: '#hero' },
@@ -19,7 +19,7 @@ const navItems = [
 ];
 
 export default function LandingPage() {
-  const { user, isLoading } = useAuth();
+  const { user } = useAuth();
   const [isClient, setIsClient] = useState(false);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
   const [activeSectionTab, setActiveSectionTab] = useState<string | null>(navItems[0].name);
@@ -86,7 +86,7 @@ export default function LandingPage() {
   }, [isClient, sectionRefs]);
 
 
-  if (isLoading && !isClient) {
+  if (!isClient) { // Simplified loading check
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -143,9 +143,7 @@ export default function LandingPage() {
           </nav>
 
           <div className="hidden md:flex items-center">
-            {isLoading ? (
-              <Loader2 className="h-5 w-5 animate-spin text-white" />
-            ) : user ? (
+            {user ? (
               <Button asChild variant="default" size="sm" className="bg-primary hover:bg-primary-gradient text-primary-foreground">
                 <Link href="/dashboard">Dashboard</Link>
               </Button>

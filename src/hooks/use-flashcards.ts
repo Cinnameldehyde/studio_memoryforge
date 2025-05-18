@@ -6,7 +6,7 @@ import type { Flashcard, Rating, DailyReviewSummary } from '@/lib/types';
 import { calculateSrsParameters, initializeSm2Parameters, checkIsMastered } from '@/lib/sm2';
 import { useLocalStorage } from './use-local-storage';
 import { useAuth } from './use-auth';
-import { formatISO, parseISO, isToday, startOfDay, isBefore, isEqual, format, addDays } from 'date-fns';
+import { formatISO, parseISO, startOfDay, isBefore, isEqual, format, addDays } from 'date-fns';
 import { useToast } from './use-toast';
 
 const FLASHCARDS_STORAGE_KEY_PREFIX = 'memoryforge-flashcards-';
@@ -201,11 +201,6 @@ export function useFlashcards(): UseFlashcardsReturn {
     setStats(calculateStats());
   }, [userFlashcards, userDailySummaries, calculateStats]);
 
-  // Also ensure other functions returned by the hook that might be used as dependencies
-  // are memoized if they don't rely on frequently changing closure variables.
-  // For example, addFlashcard, updateFlashcardContent, deleteFlashcard, rateFlashcard, resetCardProgress.
-  // I've added useCallback to these as well, with their respective dependencies.
-
   return {
     flashcards: userFlashcards,
     addFlashcard,
@@ -220,4 +215,3 @@ export function useFlashcards(): UseFlashcardsReturn {
     resetCardProgress,
   };
 }
-

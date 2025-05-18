@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { Flashcard } from '@/lib/types';
@@ -24,7 +25,7 @@ interface FlashcardListProps {
   flashcards: Flashcard[];
 }
 
-export function FlashcardListItem({ card }: { card: Flashcard }) {
+const FlashcardListItem = React.memo(function FlashcardListItem({ card }: { card: Flashcard }) {
   const { deleteFlashcard, resetCardProgress } = useFlashcards();
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false);
 
@@ -78,7 +79,8 @@ export function FlashcardListItem({ card }: { card: Flashcard }) {
       </CardFooter>
     </Card>
   );
-}
+});
+FlashcardListItem.displayName = 'FlashcardListItem';
 
 
 export function FlashcardList({ flashcards }: FlashcardListProps) {

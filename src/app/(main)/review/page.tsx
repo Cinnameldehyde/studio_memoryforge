@@ -1,6 +1,7 @@
+
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/shared/PageHeader';
 import { FlashcardItem } from '@/components/flashcards/FlashcardItem';
 import { Button } from '@/components/ui/button';

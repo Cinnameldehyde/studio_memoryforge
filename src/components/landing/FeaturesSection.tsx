@@ -1,5 +1,5 @@
 
-import { Brain, Zap, BarChart3, Settings, RefreshCw } from 'lucide-react';
+import { Brain, Zap, BarChart3, RefreshCw } from 'lucide-react';
 import { FeatureCard } from './FeatureCard';
 import React from 'react';
 
@@ -28,6 +28,7 @@ const features = [
 
 interface FeaturesSectionProps {
   id: string;
+  ref: React.RefObject<HTMLDivElement>;
 }
 
 export const FeaturesSection = React.memo(React.forwardRef<HTMLDivElement, FeaturesSectionProps>(({ id }, ref) => {
@@ -36,7 +37,7 @@ export const FeaturesSection = React.memo(React.forwardRef<HTMLDivElement, Featu
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-white text-shadow-md mb-4">
-            Why <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">MemoryForge</span>?
+            Why <span className="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--chart-5))] via-[hsl(330_70%_70%)] to-[hsl(45_100%_90%)]">MemoryForge</span>?
           </h2>
           <p className="text-lg text-white text-shadow-sm max-w-2xl mx-auto">
             Supercharge your learning with features designed for effectiveness and ease of use.

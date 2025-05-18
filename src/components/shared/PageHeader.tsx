@@ -1,4 +1,6 @@
+
 import type { ReactNode } from 'react';
+import React from 'react';
 
 interface PageHeaderProps {
   title: string;
@@ -6,9 +8,9 @@ interface PageHeaderProps {
   actionButton?: ReactNode;
 }
 
-export function PageHeader({ title, description, actionButton }: PageHeaderProps) {
+export const PageHeader = React.memo(function PageHeader({ title, description, actionButton }: PageHeaderProps) {
   return (
-    <div className="mb-8 flex flex-col items-start justify-between gap-4 rounded-xl border border-border/50 bg-card/70 p-6 shadow-lg backdrop-blur-md sm:flex-row sm:items-center">
+    <div className="mb-8 flex flex-col items-start justify-between gap-4 rounded-xl bg-card/70 p-6 shadow-lg backdrop-blur-md sm:flex-row sm:items-center">
       <div>
         <h1 className="text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary animate-gradient-x"> 
           {title}
@@ -18,7 +20,8 @@ export function PageHeader({ title, description, actionButton }: PageHeaderProps
       {actionButton && <div className="mt-4 sm:mt-0">{actionButton}</div>}
     </div>
   );
-}
+});
+PageHeader.displayName = 'PageHeader';
 
 // Add this to tailwind.config.ts animations if you want the gradient to shift
 // keyframes: {
