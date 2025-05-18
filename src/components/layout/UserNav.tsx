@@ -55,9 +55,13 @@ export function UserNav() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={logout} className="cursor-pointer hover:bg-destructive/5">
-          <LogOut className="mr-2 h-4 w-4 text-destructive" />
-          <span className="text-destructive">Log out</span>
+        <DropdownMenuItem 
+          onClick={logout} 
+          className="cursor-pointer !bg-transparent hover:!bg-destructive/5 focus:!bg-destructive/5 text-destructive hover:text-destructive focus:text-destructive"
+        >
+          <LogOut className="mr-2 h-4 w-4" /> 
+          {/* Icon color is inherited from parent's text-destructive if not explicitly set, or remains default */}
+          <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
