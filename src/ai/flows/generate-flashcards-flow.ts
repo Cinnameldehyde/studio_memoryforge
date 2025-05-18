@@ -49,7 +49,7 @@ Document Content:
 Please generate exactly {{{numQuestions}}} flashcards.
 For each flashcard, provide a question and an answer.
 The length of the answers should be '{{{answerLength}}}'.
-- If 'short', the answer should be 1-2 concise sentences.
+- If 'short', the answer should be 1-2 concise sentences. Strive for maximum conciseness and clarity.
 - If 'medium', the answer should be a single paragraph, about 3-5 sentences.
 - If 'detailed', the answer should be more comprehensive, potentially multiple sentences or a few bullet points.
 
@@ -78,3 +78,4 @@ const generateFlashcardsFlow = ai.defineFlow(
     return output;
   }
 );
+
