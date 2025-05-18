@@ -13,7 +13,6 @@ import Link from 'next/link';
 import {
   SidebarProvider,
   Sidebar,
-  SidebarHeader,
   SidebarContent,
   SidebarInset,
   SidebarTrigger,
@@ -93,9 +92,7 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
           side="left" 
           className="bg-sidebar border-r"
         >
-          <SidebarHeader className="bg-sidebar border-b p-3">
-            <AppLogo className="text-primary" />
-          </SidebarHeader>
+          {/* SidebarHeader removed */}
           <SidebarContent>
             <SidebarNav items={mainNavItems} />
           </SidebarContent>
