@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { createContext, useContext, useEffect, ReactNode } from 'react';
 import { useLocalStorage } from './use-local-storage';
 import { useToast } from './use-toast';
-import { firebaseApp } from '@/lib/firebase'; // Import Firebase app
+import { firebaseApp } from '@/lib/firebase';
 import { 
   getAuth, 
   GoogleAuthProvider, 
@@ -15,36 +15,42 @@ import {
   type User as FirebaseUser
 } from 'firebase/auth';
 
+export const DEFAULT_MOCK_USER_ID = 'default-mock-user-001';
+export const DEFAULT_MOCK_USER_EMAIL = 'name@example.com';
+
+interface UpdateUserProfileData {
+  name?: string;
+  avatarUrl?: string; // Expected to be a data URI
+}
+
 interface AuthContextType {
   user: User | null;
-  login: (email: string, name?: string) => Promise<void>; // For custom mock login
-  signup: (email: string, name: string) => Promise<void>; // For custom mock signup
-  signInWithGoogle: () => Promise<void>; // For Firebase Google Sign-In
+  login: (email: string, name?: string) => Promise<void>;
+  signup: (email: string, name: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
   logout: () => void;
   isLoading: boolean;
+  updateUserProfile: (data: UpdateUserProfileData) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const USERS_STORAGE_KEY = 'memoryforge-users'; // For mock custom users
+const USERS_STORAGE_KEY = 'memoryforge-users';
 const CURRENT_USER_STORAGE_KEY = 'memoryforge-current-user';
 
-const auth = getAuth(firebaseApp); // Initialize Firebase Auth
+const auth = getAuth(firebaseApp);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [users, setUsers] = useLocalStorage<User[]>(USERS_STORAGE_KEY, []); // Mock user DB for custom login
+  const [users, setUsers] = useLocalStorage<User[]>(USERS_STORAGE_KEY, []);
   const [currentUser, setCurrentUser] = useLocalStorage<User | null>(CURRENT_USER_STORAGE_KEY, null);
   const [isLoading, setIsLoading] = React.useState(true);
   const router = useRouter();
   const { toast, dismiss } = useToast();
 
   useEffect(() => {
-    // This effect handles the initial loading state based on the persisted currentUser from localStorage.
-    // Firebase auth state is handled more directly by its methods.
     setIsLoading(false);
   }, [currentUser]);
 
-  // Custom mock login
   const login = async (email: string, name?: string): Promise<void> => {
     setIsLoading(true);
     const existingUser = users.find(u => u.email === email);
@@ -52,19 +58,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setCurrentUser(existingUser);
       toast({ title: "Login Successful", description: `Welcome back, ${existingUser.name || existingUser.email}!` });
       router.push('/dashboard');
-    } else if (name) { // For mock "Sign in with Google" if it were to use this path, or quick sign-up
+    } else if (email === DEFAULT_MOCK_USER_EMAIL && name) { // Special handling for default mock user creation
+        const newUser: User = { id: DEFAULT_MOCK_USER_ID, email, name, avatarUrl: `https://placehold.co/40x40.png?text=${name.charAt(0).toUpperCase()}` };
+        setUsers([...users, newUser]);
+        setCurrentUser(newUser);
+        toast({ title: "Login Successful", description: `Welcome, ${name}!` });
+        router.push('/dashboard');
+    } else if (name) { // General new user from mock login if name provided (less common path now)
       const newUser: User = { id: Date.now().toString(), email, name, avatarUrl: `https://placehold.co/40x40.png?text=${name.charAt(0).toUpperCase()}` };
       setUsers([...users, newUser]);
       setCurrentUser(newUser);
       toast({ title: "Login Successful", description: `Welcome, ${name}!` });
       router.push('/dashboard');
-    } else {
+    }
+     else {
       toast({ title: "Login Failed", description: "User not found. Please sign up.", variant: "destructive" });
     }
     setIsLoading(false);
   };
 
-  // Custom mock signup
   const signup = async (email: string, name: string): Promise<void> => {
     setIsLoading(true);
     const existingUser = users.find(u => u.email === email);
@@ -73,7 +85,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsLoading(false);
       return;
     }
-    const newUser: User = { id: Date.now().toString(), email, name, avatarUrl: `https://placehold.co/40x40.png?text=${name.charAt(0).toUpperCase()}` };
+    const newUserId = email === DEFAULT_MOCK_USER_EMAIL ? DEFAULT_MOCK_USER_ID : Date.now().toString();
+    const newUser: User = { id: newUserId, email, name, avatarUrl: `https://placehold.co/40x40.png?text=${name.charAt(0).toUpperCase()}` };
     setUsers([...users, newUser]);
     setCurrentUser(newUser);
     toast({ title: "Signup Successful", description: `Welcome, ${name}!` });
@@ -81,7 +94,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(false);
   };
 
-  // Firebase Google Sign-In
   const signInWithGoogle = async (): Promise<void> => {
     setIsLoading(true);
     const provider = new GoogleAuthProvider();
@@ -92,16 +104,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         title: "Network Status",
         description: "Connection seems a bit slow...",
         variant: "default",
-        duration: 4000, // Auto-dismiss after 4 seconds
+        duration: 5000,
       });
       unstableToastId = id;
-    }, 50); // 50ms threshold, very aggressive
+    }, 3000);
 
     try {
       const result = await signInWithPopup(auth, provider);
-      clearTimeout(unstableConnectionTimer); // Operation completed, clear timer
+      clearTimeout(unstableConnectionTimer);
       if (unstableToastId) {
-        dismiss(unstableToastId); // Dismiss the "slow" toast if it was shown
+        dismiss(unstableToastId);
       }
 
       const firebaseUser: FirebaseUser = result.user;
@@ -117,9 +129,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       toast({ title: "Google Sign-In Successful", description: `Welcome, ${appUser.name}!` });
       router.push('/dashboard');
     } catch (error: any) {
-      clearTimeout(unstableConnectionTimer); // Operation failed, clear timer
+      clearTimeout(unstableConnectionTimer);
       if (unstableToastId) {
-        dismiss(unstableToastId); // Dismiss the "slow" toast if it was shown
+        dismiss(unstableToastId);
       }
       console.error("Google Sign-In Error:", error);
       toast({ title: "Google Sign-In Failed", description: error.message || "An unexpected error occurred.", variant: "destructive" });
@@ -128,22 +140,60 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const updateUserProfile = async (data: UpdateUserProfileData): Promise<void> => {
+    if (!currentUser) {
+      toast({ title: "Update Failed", description: "No user logged in.", variant: "destructive" });
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const updatedUser = { ...currentUser };
+      if (data.name && data.name.trim() !== "") {
+        updatedUser.name = data.name.trim();
+      }
+      // Only update avatarUrl if a new one is provided (it won't be undefined if they didn't select a file)
+      // but it could be null or empty string if we intentionally want to clear it.
+      // For now, we only update if a new valid data.avatarUrl is passed.
+      if (data.avatarUrl) {
+        updatedUser.avatarUrl = data.avatarUrl;
+      }
+      
+      setCurrentUser(updatedUser);
+
+      // Update in the mock users array as well if they were a mock user
+      const userIndex = users.findIndex(u => u.id === updatedUser.id);
+      if (userIndex > -1) {
+        const updatedUsers = [...users];
+        updatedUsers[userIndex] = updatedUser;
+        setUsers(updatedUsers);
+      }
+
+      toast({ title: "Profile Updated", description: "Your profile has been successfully updated." });
+    } catch (error) {
+      console.error("Profile Update Error:", error);
+      toast({ title: "Update Failed", description: "Could not update profile.", variant: "destructive" });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const logout = async () => {
     setIsLoading(true);
     try {
-      await firebaseSignOut(auth); // Sign out from Firebase
+      await firebaseSignOut(auth);
     } catch (error) {
       console.error("Firebase Sign-Out Error:", error);
-      // Non-critical, proceed with local logout
     }
-    setCurrentUser(null); // Clear user from localStorage
+    setCurrentUser(null);
     toast({ title: "Logged Out", description: "You have been successfully logged out." });
     router.push('/login');
-    setIsLoading(false);
+    // Small delay to ensure local storage clear and redirect complete before setting loading to false
+    // This can prevent race conditions with protected routes if Nav happens too quickly.
+    setTimeout(() => setIsLoading(false), 100);
   };
 
   return (
-    <AuthContext.Provider value={{ user: currentUser, login, signup, signInWithGoogle, logout, isLoading }}>
+    <AuthContext.Provider value={{ user: currentUser, login, signup, signInWithGoogle, logout, isLoading, updateUserProfile }}>
       {children}
     </AuthContext.Provider>
   );
