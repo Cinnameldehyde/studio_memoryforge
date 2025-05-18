@@ -93,7 +93,7 @@ export function GenerateFlashcardsForm() {
         <CardTitle className="flex items-center text-2xl">
           <FileText className="mr-2 h-6 w-6 text-primary" /> Document Upload & Specifications
         </CardTitle>
-        <CardDescription>Upload a .txt file and set your preferences for flashcard generation.</CardDescription>
+        <CardDescription>Upload a .txt file and set your preferences for flashcard generation. AI will generate very concise answers.</CardDescription>
       </CardHeader>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <CardContent className="space-y-6">
@@ -103,7 +103,7 @@ export function GenerateFlashcardsForm() {
               id="document-upload"
               type="file"
               accept=".txt"
-              className="mt-1 block w-full text-sm text-slate-500 h-10 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+              className="mt-1 w-full text-sm text-slate-500 flex items-center h-12 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
               {...form.register('document')}
             />
             {form.formState.errors.document && (
