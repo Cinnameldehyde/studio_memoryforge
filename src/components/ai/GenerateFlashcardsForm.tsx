@@ -103,7 +103,7 @@ export function GenerateFlashcardsForm() {
               id="document-upload"
               type="file"
               accept=".txt"
-              className="mt-1 w-full text-sm text-slate-500 flex items-center h-12 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+              className="mt-1 w-full text-sm text-slate-500 flex items-center h-14 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
               {...form.register('document')}
             />
             {form.formState.errors.document && (
