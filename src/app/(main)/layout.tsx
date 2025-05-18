@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Loader2, PanelLeft } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 
 // Layer 2: Screen Header
@@ -100,19 +101,22 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
   
   return (
     <div className="relative min-h-svh w-full">
-      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-        <FullScreenHeader onToggleSheet={() => setIsSheetOpen(prev => !prev)} />
-        <SheetContent side="left" className="w-[280px] sm:w-[320px] p-0 pt-16 bg-sidebar border-r">
-           {/* Adding a visually hidden title for accessibility as required by Radix Dialog/Sheet */}
-          <SheetHeader className="sr-only">
-            <SheetTitle>Main Navigation</SheetTitle>
-          </SheetHeader>
-          <div className="mt-2"> {/* Added mt-2 to SidebarNav to give space from top after header */}
-            <SidebarNav items={mainNavItems} />
-          </div>
-        </SheetContent>
-        <AppContentArea>{children}</AppContentArea>
-      </Sheet>
+      <TooltipProvider>
+        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+          <FullScreenHeader onToggleSheet={() => setIsSheetOpen(prev => !prev)} />
+          <SheetContent side="left" className="w-[280px] sm:w-[320px] p-0 pt-16 bg-sidebar border-r">
+             {/* Adding a visually hidden title for accessibility as required by Radix Dialog/Sheet */}
+            <SheetHeader className="sr-only">
+              <SheetTitle>Main Navigation</SheetTitle>
+            </SheetHeader>
+            <div className="mt-2"> {/* Added mt-2 to SidebarNav to give space from top after header */}
+              <SidebarNav items={mainNavItems} />
+            </div>
+          </SheetContent>
+          <AppContentArea>{children}</AppContentArea>
+        </Sheet>
+      </TooltipProvider>
     </div>
   );
 }
+
