@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
 import { LogOut } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function UserNav() {
   const { user, logout } = useAuth();
@@ -57,10 +58,23 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuItem 
           onClick={logout} 
-          className="cursor-pointer !bg-transparent hover:!bg-destructive/5 focus:!bg-destructive/5 text-destructive hover:text-destructive focus:text-destructive"
+          className={cn(
+            // Base styles
+            "text-destructive",       // Make text red by default
+            "!bg-transparent",        // Ensure no default background
+            "cursor-pointer",
+
+            // Hover states
+            "hover:!bg-destructive/5",  // On hover, 5% opacity red background
+            "hover:!text-destructive",  // On hover, text stays red
+
+            // Focus states (often triggered by hover too)
+            "focus:!bg-destructive/5",  // On focus, 5% opacity red background
+            "focus:!text-destructive"   // On focus, text stays red
+          )}
         >
           <LogOut className="mr-2 h-4 w-4" /> 
-          {/* Icon color is inherited from parent's text-destructive if not explicitly set, or remains default */}
+          {/* Icon color is inherited from parent's text-destructive */}
           <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
