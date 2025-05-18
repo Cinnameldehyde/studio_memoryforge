@@ -59,11 +59,15 @@ export function UserNav() {
         <DropdownMenuItem
           onClick={logout}
           className={cn(
-            "text-destructive cursor-pointer", // Base styles: red text, pointer
-            // Styles for when the item is highlighted (hover or keyboard focus)
-            // Radix UI uses data-highlighted attribute for this state
-            "data-[highlighted]:!bg-destructive/5", // Faint red background
-            "data-[highlighted]:!text-destructive"  // Ensure text stays red
+            "cursor-pointer", // Base interactivity
+            "text-destructive", // Default text color: red
+            "bg-transparent", // Default background: transparent
+            // Override focus state (often triggered on hover too)
+            "focus:!bg-destructive/5", // On focus: faint red background (5% opacity), important
+            "focus:!text-destructive", // On focus: text remains red, important
+            // Override data-highlighted state (Radix UI state for hover/keyboard nav)
+            "data-[highlighted]:!bg-destructive/5", // On data-highlighted: faint red background, important
+            "data-[highlighted]:!text-destructive" // On data-highlighted: text remains red, important
           )}
         >
           <LogOut className="mr-2 h-4 w-4" />
