@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { LayoutDashboard, Layers, Edit3, Sparkles } from 'lucide-react';
+import { LayoutDashboard, Layers, Edit3, Sparkles, UserCircle } from 'lucide-react';
 
 export const APP_NAME = "MemoryForge";
 
@@ -36,5 +36,11 @@ export const mainNavItems: NavItem[] = [
     href: "/generate-ai",
     icon: Sparkles,
     label: "From Document",
+  },
+  {
+    title: "Profile",
+    href: "/profile",
+    icon: UserCircle,
+    label: "Your Info",
   }
 ];
