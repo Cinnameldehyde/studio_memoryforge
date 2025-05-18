@@ -12,37 +12,42 @@ interface FlashcardItemProps {
 }
 
 export function FlashcardItem({ question, answer, onFlip }: FlashcardItemProps) {
-  const [hasBeenFlippedThisSession, setHasBeenFlippedThisSession] = useState(false);
+  const [isVisuallyFlipped, setIsVisuallyFlipped] = useState(false);
 
-  // Effect to call onFlip when hasBeenFlippedThisSession changes.
+  // Effect to call onFlip when isVisuallyFlipped changes.
   // This ensures the parent (ReviewPage) is notified to show/hide rating buttons.
   useEffect(() => {
     if (onFlip) {
-      onFlip(hasBeenFlippedThisSession);
+      onFlip(isVisuallyFlipped);
     }
-  }, [hasBeenFlippedThisSession, onFlip]);
+  }, [isVisuallyFlipped, onFlip]);
 
-  const handleMouseEnter = () => {
-    if (!hasBeenFlippedThisSession) {
-      setHasBeenFlippedThisSession(true);
-    }
+  const handleClick = () => {
+    setIsVisuallyFlipped(prev => !prev);
   };
 
   // When the 'key' prop changes in ReviewPage (new card), this component remounts,
-  // and hasBeenFlippedThisSession resets to false automatically.
+  // and isVisuallyFlipped resets to false automatically.
 
   return (
-    <div 
-      className="perspective w-full max-w-xl mx-auto h-80 md:h-96"
-      onMouseEnter={handleMouseEnter}
-      onTouchStart={handleMouseEnter} // Added for touch devices to trigger flip on first touch
+    <div
+      className="perspective w-full max-w-xl mx-auto h-80 md:h-96 cursor-pointer"
+      onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleClick();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-pressed={isVisuallyFlipped}
+      aria-label={isVisuallyFlipped ? `Showing answer: ${answer}. Click to show question.` : `Showing question: ${question}. Click to reveal answer.`}
     >
       <Card
         className={cn(
           "relative w-full h-full shadow-xl transition-transform duration-700 transform-style-preserve-3d",
-          hasBeenFlippedThisSession ? 'rotate-y-180' : ''
+          isVisuallyFlipped ? 'rotate-y-180' : ''
         )}
-        aria-label={hasBeenFlippedThisSession ? `Showing answer: ${answer}` : `Showing question: ${question}. Hover or tap to reveal answer.`}
       >
         {/* Front of the card */}
         <div className="absolute inset-0 backface-hidden flex flex-col items-center justify-center p-6 bg-card rounded-lg border">
