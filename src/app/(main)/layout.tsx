@@ -15,26 +15,23 @@ import {
   Sidebar,
   SidebarHeader,
   SidebarContent,
-  SidebarFooter,
   SidebarInset,
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from '@/components/ui/button';
 import { Loader2, PanelLeft } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 function MainContent({ children }: { children: ReactNode }) {
   const { isMobile, toggleSidebar, open } = useSidebar();
 
-  // Simplified toggle, as pinning is removed
   const handleToggle = () => {
     toggleSidebar();
   };
 
   return (
     <div className="flex min-h-svh flex-1 flex-col"> {/* Ensures footer can be pushed down */}
-      <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b-0 bg-transparent px-4 backdrop-blur-md md:justify-start">
+      <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background px-4">
         {/* Sidebar Trigger for both mobile and desktop */}
         <SidebarTrigger asChild>
             <Button variant="ghost" size="icon" className="text-foreground hover:bg-muted" onClick={handleToggle} title={open && !isMobile ? "Collapse sidebar" : "Expand sidebar"}>
@@ -50,15 +47,15 @@ function MainContent({ children }: { children: ReactNode }) {
       <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
         {children}
       </main>
-      <footer className="border-t border-border/50 py-3 text-center text-xs text-foreground/70 bg-background/30 backdrop-blur-sm">
+      <footer className="border-t border-border/50 py-3 text-center text-xs bg-background/80 text-white/80 text-shadow-sm">
         <div className="container mx-auto flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-3">
           <span>&copy; {new Date().getFullYear()} {APP_NAME}. All rights reserved.</span>
           <span className="hidden sm:inline opacity-50">|</span>
-          <Link href="#" className="hover:underline text-foreground/80 hover:text-foreground">Privacy Policy</Link>
+          <Link href="#" className="hover:underline text-white/90 hover:text-white">Privacy Policy</Link>
           <span className="hidden sm:inline opacity-50">|</span>
-          <Link href="#" className="hover:underline text-foreground/80 hover:text-foreground">Terms & Conditions</Link>
+          <Link href="#" className="hover:underline text-white/90 hover:text-white">Terms & Conditions</Link>
           <span className="hidden sm:inline opacity-50">|</span>
-          <Link href="#" className="hover:underline text-foreground/80 hover:text-foreground">Contact Us</Link>
+          <Link href="#" className="hover:underline text-white/90 hover:text-white">Contact Us</Link>
         </div>
       </footer>
     </div>
@@ -77,7 +74,7 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
 
   if (isLoading || !user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-landing-gradient animate-gradient-x">
+      <div className="fixed inset-0 z-[-1] bg-landing-gradient animate-gradient-x flex min-h-screen items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-white" />
       </div>
     );
@@ -91,18 +88,17 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
       />
       <SidebarProvider defaultOpen={true}>
         <Sidebar 
-          collapsible="icon" // Always icon-collapsible on desktop
+          collapsible="icon" 
           variant="sidebar" 
           side="left" 
-          className="border-r-0 bg-sidebar/30 backdrop-blur-sm" // Removed border
+          className="bg-sidebar border-r"
         >
-          <SidebarHeader className="sticky top-0 z-10 border-b-0 bg-sidebar/50 backdrop-blur-md shadow-sm p-3">
+          <SidebarHeader className="bg-sidebar border-b p-3">
             <AppLogo className="text-primary" />
           </SidebarHeader>
           <SidebarContent>
             <SidebarNav items={mainNavItems} />
           </SidebarContent>
-          {/* Removed SidebarFooter with pin button */}
         </Sidebar>
         <SidebarInset>
           <MainContent>{children}</MainContent>
