@@ -17,27 +17,30 @@ import {
   SidebarInset,
   SidebarTrigger,
   useSidebar,
+  SidebarHeader, // Added back if needed, or ensure AppLogo is styled correctly
 } from "@/components/ui/sidebar";
 import { Button } from '@/components/ui/button';
 import { Loader2, PanelLeft } from 'lucide-react';
 
 // Layer 2: Screen Header
 function FullScreenHeader() {
-  const { user } = useAuth(); // User needed for conditional rendering of UserNav or other elements
-  // const { toggleSidebar } = useSidebar(); // This hook can only be used inside SidebarProvider context
+  const { user } = useAuth(); 
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between border-b border-border/20 bg-background/50 px-4 shadow-sm backdrop-blur-md sm:px-6">
       <div className="flex items-center">
         <SidebarTrigger asChild>
-          <Button variant="ghost" size="icon" className="text-foreground hover:bg-muted">
+          <Button variant="ghost" size="icon" className="text-foreground hover:bg-primary/20 hover:text-primary">
             <PanelLeft />
             <span className="sr-only">Toggle Menu</span>
           </Button>
         </SidebarTrigger>
       </div>
       <div className="flex-1 flex justify-center">
-        <AppLogo className="text-xl" />
+        {/* Ensure AppLogo is clickable and correctly styled */}
+        <Link href="/dashboard" passHref aria-label={`${APP_NAME} Dashboard`}>
+            <AppLogo className="text-xl" />
+        </Link>
       </div>
       <div className="flex items-center">
         {user && <UserNav />}
@@ -53,8 +56,9 @@ function AppSidebar() {
       collapsible="icon" 
       variant="sidebar" 
       side="left" 
-      className="z-50 border-r bg-sidebar/80 backdrop-blur-md" // Ensure higher z-index than header
+      className="z-50 border-r-0 bg-sidebar/80 backdrop-blur-md" // Ensure higher z-index than header, border-r-0 if seamless desired
     >
+      {/* AppLogo was previously removed from here, it's now in FullScreenHeader */}
       <SidebarContent className="mt-16 pt-2"> {/* Add margin-top to account for FullScreenHeader height */}
         <SidebarNav items={mainNavItems} />
       </SidebarContent>
@@ -67,7 +71,7 @@ function AppContentArea({ children }: { children: ReactNode }) {
   return (
     <SidebarInset className="bg-landing-gradient animate-gradient-x">
       <div className="flex min-h-svh flex-1 flex-col"> {/* Ensures footer can be pushed down */}
-        <main className="flex-1 overflow-y-auto p-4 pt-24 md:p-6 md:pt-24 lg:p-8 lg:pt-28"> {/* Increased padding-top */}
+        <main className="flex-1 overflow-y-auto p-4 pt-24 md:p-6 md:pt-24 lg:p-8 lg:pt-28"> {/* Increased padding-top for FullScreenHeader */}
           {children}
         </main>
         <footer className="border-t border-border/50 py-3 text-center text-xs bg-transparent text-white/80 text-shadow-sm">
@@ -106,7 +110,6 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
   
   return (
     <div className="relative min-h-svh w-full">
-      {/* The fixed background gradient is now handled by SidebarInset/AppContentArea */}
       <SidebarProvider defaultOpen={true}>
         <FullScreenHeader />
         <AppSidebar />
