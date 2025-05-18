@@ -23,7 +23,7 @@ import { Loader2, PanelLeft } from 'lucide-react';
 // Layer 2: Screen Header
 function FullScreenHeader() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between border-b bg-background/95 px-4 shadow-sm sm:px-6">
+    <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between border-b bg-background px-4 shadow-sm sm:px-6">
       <div className="flex items-center">
         <SidebarTrigger asChild>
           <Button variant="ghost" size="icon" className="text-foreground hover:bg-primary/20 hover:text-primary">
@@ -51,7 +51,7 @@ function AppSidebar() {
       collapsible="icon" 
       variant="sidebar" 
       side="left" 
-      className="z-50 border-r-0 bg-sidebar shadow-lg"
+      className="z-50 bg-sidebar border-r" // Restored border-r for visual separation
     >
       <SidebarContent className="mt-16 pt-2"> 
         <SidebarNav items={mainNavItems} />
@@ -93,6 +93,17 @@ export default function MainAppLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!isLoading && !user) {
       router.replace('/login');
+    }
+  }, [user, isLoading, router]);
+
+  // Programmatic prefetching of main navigation routes
+  useEffect(() => {
+    if (user && !isLoading) { // Only prefetch if the user is logged in and auth is not loading
+      mainNavItems.forEach(item => {
+        if (item.href && typeof item.href === 'string') {
+          router.prefetch(item.href);
+        }
+      });
     }
   }, [user, isLoading, router]);
 
