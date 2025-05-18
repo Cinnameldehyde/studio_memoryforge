@@ -16,7 +16,7 @@ function DashboardStatsDisplay() {
 
   if (flashcardsLoading) {
     return (
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {[...Array(4)].map((_, i) => (
           <Card key={i} className="shadow-lg">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -40,7 +40,7 @@ function DashboardStatsDisplay() {
   ];
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {statItems.map((item) => (
         <Card key={item.title} className="shadow-lg transition-all hover:shadow-xl">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
