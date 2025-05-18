@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Sparkles, FileText, PlusCircle, AlertTriangle } from 'lucide-react';
 import { generateFlashcardsFromDocument, type GenerateFlashcardsInput, type GeneratedFlashcard } from '@/ai/flows/generate-flashcards-flow';
@@ -18,7 +17,6 @@ import { useFlashcards } from '@/hooks/use-flashcards';
 const generateSchema = z.object({
   document: z.instanceof(FileList).refine(files => files.length > 0, "Document is required."),
   numQuestions: z.coerce.number().min(1, "At least 1 question.").max(20, "Maximum 20 questions."),
-  answerLength: z.enum(['short', 'medium', 'detailed']),
 });
 
 type GenerateFormValues = z.infer<typeof generateSchema>;
@@ -34,7 +32,6 @@ export function GenerateFlashcardsForm() {
     resolver: zodResolver(generateSchema),
     defaultValues: {
       numQuestions: 5,
-      answerLength: 'medium',
     },
   });
 
@@ -67,10 +64,10 @@ export function GenerateFlashcardsForm() {
 
     try {
       const documentContent = await readFileAsText(file);
+      // answerLength is removed, AI will be prompted for short answers by default
       const input: GenerateFlashcardsInput = {
         documentContent,
         numQuestions: data.numQuestions,
-        answerLength: data.answerLength,
       };
       
       const result = await generateFlashcardsFromDocument(input);
@@ -106,7 +103,7 @@ export function GenerateFlashcardsForm() {
               id="document-upload"
               type="file"
               accept=".txt"
-              className="mt-1 block w-full text-sm text-slate-500 h-12 file:mr-4 file:py-3 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+              className="mt-1 block w-full text-sm text-slate-500 h-10 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
               {...form.register('document')}
             />
             {form.formState.errors.document && (
@@ -114,41 +111,20 @@ export function GenerateFlashcardsForm() {
             )}
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div>
-              <Label htmlFor="numQuestions" className="text-base">Number of Flashcards</Label>
-              <Input
-                id="numQuestions"
-                type="number"
-                className="mt-1"
-                {...form.register('numQuestions')}
-              />
-              {form.formState.errors.numQuestions && (
-                <p className="mt-1 text-sm text-destructive">{form.formState.errors.numQuestions.message}</p>
-              )}
-            </div>
-            <div>
-              <Label htmlFor="answerLength" className="text-base">Answer Length</Label>
-              <Controller
-                name="answerLength"
-                control={form.control}
-                render={({ field }) => (
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger id="answerLength" className="mt-1">
-                      <SelectValue placeholder="Select answer length" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="short">Short (1-2 sentences)</SelectItem>
-                      <SelectItem value="medium">Medium (1 paragraph)</SelectItem>
-                      <SelectItem value="detailed">Detailed (multiple sentences/points)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-            </div>
+          <div>
+            <Label htmlFor="numQuestions" className="text-base">Number of Flashcards</Label>
+            <Input
+              id="numQuestions"
+              type="number"
+              className="mt-1"
+              {...form.register('numQuestions')}
+            />
+            {form.formState.errors.numQuestions && (
+              <p className="mt-1 text-sm text-destructive">{form.formState.errors.numQuestions.message}</p>
+            )}
           </div>
         </CardContent>
-        <CardFooter className="flex-col items-stretch space-y-4">
+        <CardFooter className="flex-col items-stretch space-y-4 pt-6">
           <Button type="submit" disabled={isLoading} className="w-full bg-primary">
             {isLoading ? (
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
