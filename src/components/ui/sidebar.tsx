@@ -22,9 +22,9 @@ import {
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
-const SIDEBAR_WIDTH = "14rem" // Decreased from 16rem
+const SIDEBAR_WIDTH = "12rem"; // Decreased from 14rem
 const SIDEBAR_WIDTH_MOBILE = "18rem"
-const SIDEBAR_WIDTH_ICON = "2.75rem" // Decreased from 3rem
+const SIDEBAR_WIDTH_ICON = "2.75rem"; 
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
 type SidebarContext = {
@@ -791,3 +791,4 @@ export {
 }
 
     
+  
