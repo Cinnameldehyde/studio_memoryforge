@@ -9,10 +9,6 @@
 - Local Authentication: Allows user sign-in via Google or custom login. Stores user-related info to localStorage
 
 ## Style Guidelines:
-
-- Primary color: Deep Blue (#3F51B5) to convey intelligence.
-- Background color: Very light Blue Gray (#F5F6FA) for a neutral backdrop that does not distract from the content.
-- Accent color: Purple (#7E57C2) for highlighting interactive elements and calls to action, such as the 'Know' or 'Don't Know' buttons.
 - Use a clear, sans-serif font optimized for readability on screen. Choose a font with good character spacing and a variety of weights to create hierarchy.
 - Utilize a consistent set of icons, focused on simplicity. Icons should support the text labels and provide visual cues for key actions and concepts.
 - Implement a block-based design for content sections, making sure to follow a clear visual hierarchy.
