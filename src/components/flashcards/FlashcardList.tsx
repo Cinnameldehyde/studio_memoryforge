@@ -30,12 +30,12 @@ const FlashcardListItem = React.memo(function FlashcardListItem({ card }: { card
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false);
 
   return (
-    <Card className="shadow-md transition-all hover:shadow-lg">
+    <Card className="shadow-md transition-all hover:shadow-lg flex flex-col h-full">
       <CardHeader>
         <CardTitle className="text-lg truncate" title={card.question}>{card.question}</CardTitle>
         <CardDescription className="text-sm truncate" title={card.answer}>{card.answer}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-grow">
         <div className="text-xs text-muted-foreground space-y-1">
           <p className="flex items-center">
             <CalendarCheck2 className="mr-2 h-3.5 w-3.5" /> 
@@ -46,7 +46,7 @@ const FlashcardListItem = React.memo(function FlashcardListItem({ card }: { card
           {card.isMastered && <p className="text-green-600 font-medium">Mastered</p>}
         </div>
       </CardContent>
-      <CardFooter className="flex justify-end gap-2">
+      <CardFooter className="flex justify-end gap-2 pt-4 mt-auto">
         <Button variant="outline" size="sm" onClick={() => resetCardProgress(card.id)} aria-label="Reset progress for this card">
           <RotateCcw className="h-4 w-4" />
         </Button>
@@ -97,7 +97,7 @@ export function FlashcardList({ flashcards }: FlashcardListProps) {
   const sortedFlashcards = [...flashcards].sort((a,b) => parseISO(b.createdAt).getTime() - parseISO(a.createdAt).getTime());
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(300px,1fr))]">
       {sortedFlashcards.map(card => (
         <FlashcardListItem key={card.id} card={card} />
       ))}
