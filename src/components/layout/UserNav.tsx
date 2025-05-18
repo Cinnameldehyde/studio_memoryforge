@@ -55,7 +55,7 @@ export function UserNav() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={logout} className="cursor-pointer hover:bg-destructive/10">
+        <DropdownMenuItem onClick={logout} className="cursor-pointer hover:bg-destructive/5">
           <LogOut className="mr-2 h-4 w-4 text-destructive" />
           <span className="text-destructive">Log out</span>
         </DropdownMenuItem>
